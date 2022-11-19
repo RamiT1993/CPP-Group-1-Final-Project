@@ -17,7 +17,9 @@
 */
 
 
-/* PreProcessor Directives Section Start */
+/* 
+	PreProcessor Directives Section Start 
+*/
 #include <iostream> // for input and output default stream use
 #include <string> // for string data type use
 #include <iomanip> // output manipulation
@@ -26,18 +28,33 @@
 #include <cmath> // maybe? in case we use it later otherwise deletion
 #include <cctype> // maybe? in case we use it later otherwise deletion
 
-/* PreProcessor Directives Section End */
+/* 
+	PreProcessor Directives Section End 
+*/
 
-/* Function Prototype section in which you put who created it, date of last revision  */
+/* 
+	Function Prototype section in which you put who created it, date of last revision  
+*/
 
+// Every One Participated in the creation of these functions
 int randomResult(); // Everyone Partcipated in the creation of rand
 
-/* Function ProtoType Section End  */
+// Rami's Function Prototypes
+
+// Emily's Function Prototypes
+
+// Hunter's Function Prototypes
+
+/* 
+	Function ProtoType Section End  
+*/
 
 using namespace std; // so we dont have to constantly use std:: prefix
 
 
-/* Main Function Start */
+/* 
+	Main Function Start 
+*/
 int main() 
 {
 	// variables
@@ -51,19 +68,32 @@ int main()
 }
 
 
-/* Main Function End */
+/*
+	Main Function End 
+*/
 
 
-/* Function Definition Start */
+/*
+	Function Definition Start 
+*/
+
+// Every One Participated in the creation of these functions
 
 
-/* This Function primary purpose is:
-		to act as a fail safe against user generated error when they choose which game and when to quit*/
+//This Function primary purpose is to act as a fail safe against user generated error when they choose which game and when to quit. We don't want the program to crash when the user messes up the button or key prompt		
 int randomResult()
 {
 	int srand(time(0)); // this allows us to use a seed so the random can actually be random each time of running the function. time(0) indicates the number of seconds start from january 1, 1970.
 	return rand() % 3 + 1; // indicates that we want to start at position 1 and not position 0 because rand() indicates a position start at 0 without the + 1 in the end
 }
 
+// Rami's Function Definitions
 
-/* Function Definition End */
+// Emily's Function Definitions
+
+// Hunter's Function Definitions
+
+
+/* 
+	Function Definition End 
+*/
