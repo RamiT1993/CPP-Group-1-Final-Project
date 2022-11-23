@@ -12,8 +12,8 @@ be like visiting a carnival. The games in question are choose the correct word l
 guess the picture line-by-line or Pictionary, and lastly play a board game where you advance spaces by 
 rolling dice. The player can enter a choice ranging from numbers one to three to pick a game and if they 
 do not choose one or inputted something by mistake a game will automatically be chosen for them
-through random number generation of the three games. The game will use the ìQî or ìqî key to quit the 
-game and update the text file. To output the result, ìScore Boardî will be displayed, and the results will be 
+through random number generation of the three games. The game will use the ‚ÄúQ‚Äù or ‚Äúq‚Äù key to quit the 
+game and update the text file. To output the result, ‚ÄúScore Board‚Äù will be displayed, and the results will be 
 outputted into a text file. This will act as a save state so when you start the program again, you can keep
 the number of times you won. Text file will contain the total results of each minigame and the total win of 
 all minigames.</b> <br><br><br>
@@ -28,7 +28,7 @@ Requirements
 - [ ] - <strong>One</strong> function needs to prompt user for input (e.g. <em>cin</em>) (5 points)
 - [ ] - <strong>One</strong> function needs to read something from a file (5 points)
 - [ ] - <strong>One</strong> function needs to write something from a file (5 points)
-- [ ] - <strong>Comments that convince the instructor you wrote the code <em>AND</em> comments must include the name of the individual that wrote the function</strong (10 points)
+- [ ] - <strong>Comments that convince the instructor you wrote the code <em>AND</em> comments must include the name of the individual that wrote the function</strong> (10 points)
 
 
 
