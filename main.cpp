@@ -12,8 +12,6 @@
 
 	You must give ample description for each function you create
 
-	for each function put
-
 */
 
 
@@ -34,13 +32,19 @@
 */
 
 /* 
-	Function Prototype section in which you put who created it, date of last revision  
+	Function Prototype section put the function you created inside of your section
 */
 
 // Every One Participated in the creation of these functions
-int randomResult(); // November 18th, 2022
+int randomResult(); 
 
 void readWins(int&, int&, int&);
+
+void writeWins(int&, int&, int&);
+
+
+
+//void mainLoop(int&, int&, int&); maybe like this
 
 
 
@@ -71,8 +75,14 @@ int main()
 	// bool controlled and flag controlled variables
 	bool quitProgram = false;
 
+	cout << hangmanWins << pictionaryWins << boardGameWins << endl;
+
 	readWins(hangmanWins, pictionaryWins, boardGameWins);
 
+	cout << hangmanWins << pictionaryWins << boardGameWins << endl;
+
+
+	writeWins(hangmanWins, pictionaryWins, boardGameWins);
 	
 	
 }
@@ -84,7 +94,7 @@ int main()
 
 
 /*
-	Function Definition Start 
+	Function Definition(s) Start 
 */
 
 // Every One Participated in the creation of these functions
@@ -110,7 +120,7 @@ void readWins(int& firstGame, int& secondGame, int& thirdGame)
 		int arrayControlVariable = 0; // control the array element so it does not go out of scope
 
 		// this whole section makes sure that the file does not reach the end of the array and goes out of scope and se
-		while (!winningOutput.eof() && winningOutput >> tempHolder >> wins && arrayControlVariable != 3)
+		while (!winningOutput.eof() && winningOutput >> tempHolder >> tempHolder >> wins && arrayControlVariable != 3)
 		{
 			if (wins <= 0)
 			{
@@ -147,6 +157,44 @@ void readWins(int& firstGame, int& secondGame, int& thirdGame)
 
 	winningOutput.close(); // to close the file after opening it of course.
 }
+
+
+// this was talked about and further elaborated on in the zoom meeting
+// purpose of this file is to write the wins of each game and the total number Wins to a text file and output it in a way thats legible to the end user. by using arrays we are are able to quickly access them 
+// through a loop and outputting the results which is then used in the setw portion of the work. we can we the for loop to iterate throughout each loop. we create an empty loop to then output the results.
+// we use .length method to get the amount of characters in the string (this was shown in one of the examples)
+// arrays allow us to be more flexible and a good way to use loop to contain a collection of data. (i love arrays)
+void writeWins(int& firstGame, int& secondGame, int& thirdGame)
+{
+
+	string gameWriteArray[] = { "HangMan Wins:", "Pictionary Wins:", "BoardGame Wins:", "Total Wins:" };
+	int holdLoopResults[4]{};
+
+	for (int goingThroughArrayLoop = 0; goingThroughArrayLoop != 4; goingThroughArrayLoop++)
+	{
+		holdLoopResults[goingThroughArrayLoop] = 30 - gameWriteArray[goingThroughArrayLoop].length() ;
+		if (holdLoopResults[goingThroughArrayLoop] <= 0)
+		{
+			holdLoopResults[goingThroughArrayLoop] = 1;
+		}
+
+	}
+
+	ofstream writeToWinFile;
+	writeToWinFile.open("totalWins.txt");
+	
+	if (writeToWinFile) // we use an if (writeToWinFile) to make sure it already exists else do not write to file
+	{
+		int totalWinsInt = firstGame + secondGame + thirdGame;
+		writeToWinFile << gameWriteArray[0] << setw(holdLoopResults[0]) << firstGame << endl;
+		writeToWinFile << gameWriteArray[1] << setw(holdLoopResults[1]) << secondGame << endl;
+		writeToWinFile << gameWriteArray[2] << setw(holdLoopResults[2]) << thirdGame << endl;
+		writeToWinFile << gameWriteArray[3] << setw(holdLoopResults[3]) << totalWinsInt << endl;
+	}
+
+	writeToWinFile.close();
+}
+
 
 
 
