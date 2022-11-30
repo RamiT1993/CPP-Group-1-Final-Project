@@ -2,7 +2,7 @@
 	Program Name: Carnival
 	Program Group Leader: Rami Toma
 	Program Group Members: Emily Burley and Hunter Donovan
-	Rami's Portion of Work Final Revision Date: Month Day, 2022
+	Rami's Portion of Work Final Revision Date: Noveember 30th, 2022 @ 3.54 a.m.
 	Emily's Portion of Work Final Revision Date: Month Day, 2022
 	Hunter's Portion of Work Final Revision Date: Month Day, 2022
 	Final Program Revision Date: Month Day, 2022
@@ -25,7 +25,7 @@
 #include <ctime> // to truly be random
 #include <cstdlib> // for random use
 #include <cmath> // maybe? in case we use it later otherwise deletion
-#include <cctype> // maybe? in case we use it later otherwise deletion
+#include <cctype> // useful for changing a character tolower but remember it changes to an int
 
 /* 
 	PreProcessor Directives Section End 
@@ -52,9 +52,10 @@ using namespace std; // so we dont have to constantly use std:: prefix
 
 void hangManIntroduction();
 int difficultyChoice(bool& quitVariable);
-string choosingTheWord(string stringArrayWord[][3], const int& intDifficulty, string& returnToThis);
+string choosingTheWord(const string stringArrayWord[][3], const int& intDifficulty, string& returnToThis);
+int maxGuesses(const int guessArray[], const int& intDifficulty);
 int choosingALetter(char& charInputOfLetter, bool& quitter);
-void mainHangManFunc(int& gameOneIncrement, string stringArrayWords[][3], const int guessArray[], const char alphabet[], const int&);
+void mainHangManFunc(int& gameOneIncrement, const string stringArrayWords[][3], const int guessArray[], const char alphabet[], const int&);
 
 
 
@@ -79,11 +80,12 @@ int main()
 	srand(time(0)); // this allows us to use a seed so the random can actually be random each time of running the function. time(0) indicates the number of seconds start from january 1, 1970.
 
 	// const arrays
-	
 	const int ALPHABET_LIMIT = 26;
+	const char ENGLISH_ALPHABET[ALPHABET_LIMIT] = { 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z' };
+	
 	const int GUESS_LIMIT[] = { 5, 7, 10 };
 							
-	const char ENGLISH_ALPHABET[ALPHABET_LIMIT] = { 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z' };
+	
 	string words[3][3] = { {"actor", "ahead", "alive"},
 		{"quizzed", "zizzled", "wazzock"},
 		{"maximizing", "jackhammer", "squeezable"}};
@@ -111,8 +113,6 @@ int main()
 	
 	
 }
-
-
 /*
 	Main Function End 
 */
@@ -230,17 +230,19 @@ void writeWins(int& firstGame, int& secondGame, int& thirdGame)
 
 // Rami's Function Definitions
 
-/*This is used to display the introduction of the hangMan Game*/
+/*This is used to display the introduction of the HangMan Game with some iomanip separtors*/
 void hangManIntroduction()
 {
 	cout << setw(10) << setfill('-') << "" << "Welcome to the Hangman Game" << setw(10) << setfill('-') << "" << endl;
+	cout << endl;
 	cout << "The rules are: keep guessing the word per letter until you run out of guesses or you quit!" << endl;
 }
 
 
-/* The purpose of this function is to tell the user to input a difficulty choice which will 
-then be used to choose how long the word is, and theirs also a system implemented if the use inputs something else using the random function */
-int difficultyChoice(bool &quitVariable)
+/* The purpose of this function is to tell the user to input a difficulty choice, which will then be used to determine the difficulty of the word, that will be used
+, and theirs also a fail safe system implemented that will be used to make sure the user is able to quit and a random default is implement so that if the user does not 
+choose and it will choose the difficulty randomly*/
+int difficultyChoice(bool& quitVariable)
 {
 	char difficultyChoiceChar = 0;
 	int difficultyInInt = 0;
@@ -280,10 +282,11 @@ int difficultyChoice(bool &quitVariable)
 	}
 }
 
-/*This function's purpose will use the variable returned by difficultyChoice and 
-the randomresult function from 0-2 which will allow us to gain the word that will be used, in the hangman game and since we don't want the number to change through the scope
-we add const in front of it, this will also return the spacing required to check if the player actually won */
-string choosingTheWord(string stringArrayWord[][3], const int& intDifficulty, string& returnToThis)
+/*This function's purpose will use the variable that is passed by reference by difficultyChoice, 
+the randomresult function from 0-3 which will allow us to gain the word from the 2d array, that will be used in the hangman game and since we don't want the number to change through the scope
+we add const in front of it. I also used this to create the spacing that will act kinda like pseudo array, that can be used inside of another function using the strVar[index] method.
+I primarly did it this way because I don't know how to create a new array inside the */
+string choosingTheWord(const string stringArrayWord[][3], const int& intDifficulty, string& returnToThis)
 {	
 	
 	returnToThis = stringArrayWord[intDifficulty][randomResult(3)];
@@ -437,7 +440,7 @@ int choosingALetter(char& charInputOfLetter, bool& quitter)
 
 /*This main function is in which every other function will be passed into and only this will will be called into main, thats what i thought at least, as far as I know so far I can not create arrays inside of functions
 the same reason we can use srand inside of function because of the scope. The hangman game will not work without multiple nested loops.*/
-void mainHangManFunc(int& gameOneIncrement, string stringArrayWords[][3], const int guessArray[], const char alphabet[], const int& alphaLimit)
+void mainHangManFunc(int& gameOneIncrement, const string stringArrayWords[][3], const int guessArray[], const char alphabet[], const int& alphaLimit)
 {
 	bool wordGuessed = false;
 	bool quitGame = false;
@@ -478,9 +481,6 @@ void mainHangManFunc(int& gameOneIncrement, string stringArrayWords[][3], const 
 				break;
 			}
 
-			cin.clear();
-			cin.ignore(100, '\n');
-
 			for (int letterLocation = 0; letterLocation <= wordLength; letterLocation++)
 			{
 				
@@ -493,10 +493,10 @@ void mainHangManFunc(int& gameOneIncrement, string stringArrayWords[][3], const 
 					{
 						result[indexHolder] = static_cast<char>(tolower(wordResult[indexHolder]));
 					}
+					
 				}
-
 			}
-			cout << "Current Progress on Your word is: ";
+			cout << "Current Progress on Your word is" <<  setw(15) << setfill('-') << "";
 			for (int currentResultsOfGuessing = 0; currentResultsOfGuessing < wordLength; currentResultsOfGuessing++)
 				{
 
@@ -512,6 +512,8 @@ void mainHangManFunc(int& gameOneIncrement, string stringArrayWords[][3], const 
 
 		}
 
+
+		// to check if the player has guessed correctly
 		if (result == wordResult)
 		{
 			if (difficultyChoiceIntVariable == 0)
@@ -522,6 +524,7 @@ void mainHangManFunc(int& gameOneIncrement, string stringArrayWords[][3], const 
 				cout << endl;
 				wordGuessed = true;
 				cout << setw(47) << setfill('-') << "" << endl;
+				cin.ignore(); // to ignore that extra cin at the end that appears weirdly
 			}
 			else if (difficultyChoiceIntVariable == 1)
 			{
@@ -531,6 +534,7 @@ void mainHangManFunc(int& gameOneIncrement, string stringArrayWords[][3], const 
 				cout << endl;
 				wordGuessed = true;
 				cout << setw(47) << setfill('-') << "" << endl;
+				cin.ignore(); // to ignore that extra cin at the end that appears weirdly
 			}
 			else
 			{
@@ -540,6 +544,7 @@ void mainHangManFunc(int& gameOneIncrement, string stringArrayWords[][3], const 
 				cout << endl;
 				wordGuessed = true;
 				cout << setw(47) << setfill('-') << "" << endl;
+				cin.ignore(); // to ignore that extra cin at the end that appears weirdly
 			}
 		}
 		else
@@ -548,6 +553,7 @@ void mainHangManFunc(int& gameOneIncrement, string stringArrayWords[][3], const 
 			cout << "You have lost the game, Going back to the top" << endl;
 			cout << endl;
 			cout << setw(47) << setfill('-') << "" << endl;
+			cin.ignore(); // to ignore that extra cin at the end that appears weirdly
 		}
 
 	} while (quitGame == false && wordGuessed != true);
