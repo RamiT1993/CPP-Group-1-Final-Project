@@ -52,9 +52,9 @@ using namespace std; // so we dont have to constantly use std:: prefix
 
 void hangManIntroduction();
 int difficultyChoice(bool& quitVariable);
-string choosingTheWord(const string stringArrayWord[][3], const int& intDifficulty);
+string choosingTheWord(string stringArrayWord[][3], const int& intDifficulty);
 int choosingALetter(char& charInputOfLetter, bool& quitter);
-void mainHangManFunc(int& gameOneIncrement, const string stringArrayWords[][3], const int guessArray[], const char alphabet[]);
+void mainHangManFunc(int& gameOneIncrement, string stringArrayWords[][3], const int guessArray[], const char alphabet[], const int&);
 
 
 
@@ -79,14 +79,14 @@ int main()
 	srand(time(0)); // this allows us to use a seed so the random can actually be random each time of running the function. time(0) indicates the number of seconds start from january 1, 1970.
 
 	// const arrays
-	const char ENGLISH_ALPHABET[] = { 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', '\0' };
-	const string WORDS[3][3] = { {"Actor", "Ahead", "Alive"},
-		{"Quizzed", "Zizzled", "Wazzock"},
-		{"Maximizing", "Jackhammer", "Squeezable"}};
+	
+	const int ALPHABET_LIMIT = 26;
 	const int GUESS_LIMIT[] = { 5, 7, 10 };
 							
-
-
+	const char ENGLISH_ALPHABET[ALPHABET_LIMIT] = { 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z' };
+	string words[3][3] = { {"Actor", "Ahead", "Alive"},
+		{"Quizzed", "Zizzled", "Wazzock"},
+		{"Maximizing", "Jackhammer", "Squeezable"}};
 	// variables
 	int hangmanWins = 0;
 	int pictionaryWins = 0;
@@ -97,7 +97,7 @@ int main()
 
 
 		
-	mainHangManFunc(hangmanWins, WORDS, GUESS_LIMIT, ENGLISH_ALPHABET);
+	mainHangManFunc(hangmanWins, words, GUESS_LIMIT, ENGLISH_ALPHABET, ALPHABET_LIMIT);
 
 
 	//readWins(hangmanWins, pictionaryWins, boardGameWins);
@@ -281,11 +281,11 @@ int difficultyChoice(bool &quitVariable)
 
 /*This function's purpose will use the variable returned by difficultyChoice and the randomresult function from 0-2 which will allow us to gain the word that will be used, in the hangman game and since we don't want the number to change through the scope
 we add const in front of it*/
-string choosingTheWord(const string stringArrayWord[][3], const int& intDifficulty)
+void choosingTheWord(string stringArrayWord[][3], const int& intDifficulty, string& returnToThis)
 {	
 	
-	string wordChoice = stringArrayWord[intDifficulty][randomResult(3)];
-	return wordChoice;
+	returnToThis = stringArrayWord[intDifficulty][randomResult(3)];
+	
 
 }
 
@@ -411,11 +411,11 @@ int choosingALetter(char& charInputOfLetter, bool& quitter)
 
 
 /*This main function is in which every other function will be passed into and only this will will be called into main*/
-void mainHangManFunc(int& gameOneIncrement, const string stringArrayWords[][3], const int guessArray[], const char alphabet[])
+void mainHangManFunc(int& gameOneIncrement, string stringArrayWords[][3], const int guessArray[], const char alphabet[], const int& alphaLimit)
 {
 	bool wordGuessed = false;
 	bool quitGame = false;
-
+	char guessedWordArray[11]{};
 	do {
 		
 		
@@ -428,20 +428,28 @@ void mainHangManFunc(int& gameOneIncrement, const string stringArrayWords[][3], 
 			break;
 		}
 
-		string wordResult = choosingTheWord(stringArrayWords, difficultyChoiceIntVariable);
+		string wordResult;
+		choosingTheWord(stringArrayWords, difficultyChoiceIntVariable, wordResult);
+
 
 		int wordLength = wordResult.length();
 
 		const int MAX_GUESSESS = maxGuesses(guessArray, difficultyChoiceIntVariable);
 
 		
-		for (int guesses = 0; guesses <= MAX_GUESSESS && wordGuessed != true; guesses++)
+		
+
+		
+		for (int guesses = 0; guesses <= MAX_GUESSESS + 1 && wordGuessed != true; guesses++)
 		{
 			char letterChoice = 0;
 			cout << "Please Choose a letter from the Alphabet:";
 			cin >> letterChoice;
 
-			choosingALetter(letterChoice, quitGame);
+			
+			int trueChoice = choosingALetter(letterChoice, quitGame);
+
+			
 
 			if (quitGame == true)
 			{
@@ -449,11 +457,41 @@ void mainHangManFunc(int& gameOneIncrement, const string stringArrayWords[][3], 
 			}
 
 
+			for (int letterLocation = 0; letterLocation <= wordLength; letterLocation++)
+			{
+				
+
+				if (alphabet[trueChoice] ==  static_cast<char>(tolower(wordResult[letterLocation])))
+				{
+					//cout << " wordResult:" << wordResult[letterLocation] << " alphabet:" <<alphabet[trueChoice];
+
+					guessedWordArray[letterLocation] = static_cast<char>(tolower(wordResult[letterLocation]));
+					int indexHolder = letterLocation;
+
+
+
+					cout << endl;
+				}
+
+			
+
+			}
+			
+
+
 
 		}
 		
 
 	} while (quitGame == false && wordGuessed != true);
+
+	for (int guessEmpty = 0; guessEmpty < 10; guessEmpty++)
+	{
+		
+		guessedWordArray[guessEmpty] = ' ';
+	}
+	guessedWordArray[10] = '\0';
+	
 
 
 }
