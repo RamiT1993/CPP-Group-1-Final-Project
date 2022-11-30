@@ -74,11 +74,8 @@ void mainHangManFunc(int& gameOneIncrement, const string stringArrayWords[][3], 
 	Main Function Start
 */
 int main()
-{
-
-	// for true random can't be placed inside of functions
-	srand(time(0)); // this allows us to use a seed so the random can actually be random each time of running the function. time(0) indicates the number of seconds start from january 1, 1970.
-
+{	
+	
 	// const arrays required for HangMan Game
 	const int ALPHABET_LIMIT = 26;
 	const char ENGLISH_ALPHABET[ALPHABET_LIMIT] = { 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z' };
@@ -89,22 +86,23 @@ int main()
 
 	// const array for hangManGame End
 
-	// variables
+	// for true random can't be placed inside of functions
+	srand(time(0)); // this allows us to use a seed so the random can actually be random each time of running the function. time(0) indicates the number of seconds start from january 1, 1970.
+
+
+	// variables to iterate wins
 	int hangmanWins = 0;
 	int pictionaryWins = 0;
 	int boardGameWins = 0;
 
-	// bool controlled and flag controlled variables
+
+	// bool to quit game.
 	bool quitProgram = false;
 
 
-	readWins(hangmanWins, pictionaryWins, boardGameWins);
-	cout << endl;
-	mainHangManFunc(hangmanWins, WORDS, GUESS_LIMIT, ENGLISH_ALPHABET, ALPHABET_LIMIT);
-
-
-
-	writeWins(hangmanWins, pictionaryWins, boardGameWins);
+	//readWins(hangmanWins, pictionaryWins, boardGameWins);
+	//mainHangManFunc(hangmanWins, WORDS, GUESS_LIMIT, ENGLISH_ALPHABET, ALPHABET_LIMIT);
+	//writeWins(hangmanWins, pictionaryWins, boardGameWins);
 
 
 
@@ -335,7 +333,6 @@ int maxGuesses(const int guessArray[], const int& intDifficulty)
 	}
 }
 
-
 /* The primary purpose of this function is a quick way to get the index of the alphabet array and return as an int,
 it always has a check system to make sure*/
 int choosingALetter(char& charInputOfLetter, bool& quitter)
@@ -435,8 +432,6 @@ int choosingALetter(char& charInputOfLetter, bool& quitter)
 		return letterChosen;
 	}
 }
-
-
 
 /*This main function is in which every other function will be passed into and only this will will be called into main, thats what i thought at least, as far as I know so far I can not create arrays inside of functions
 the same reason we can use srand inside of function because of the scope. The hangman game will not work without multiple nested loops.*/
