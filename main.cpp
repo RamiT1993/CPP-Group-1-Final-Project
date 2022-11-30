@@ -47,9 +47,16 @@ void writeWins(int&, int&, int&);
 //void mainLoop(int&, int&, int&); maybe like this
 
 
-
-
+using namespace std; // so we dont have to constantly use std:: prefix
 // Rami's Function Prototypes
+
+void hangManIntroduction();
+int difficultyChoice(bool& quitVariable);
+string choosingTheWord(const string stringArrayWord[][3], const int& intDifficulty);
+int choosingALetter(char& charInputOfLetter, bool& quitter);
+void mainHangManFunc(int& gameOneIncrement, const string stringArrayWords[][3], const int guessArray[], const char alphabet[]);
+
+
 
 // Emily's Function Prototypes
 
@@ -59,7 +66,7 @@ void writeWins(int&, int&, int&);
 	Function ProtoType Section End  
 */
 
-using namespace std; // so we dont have to constantly use std:: prefix
+
 
 
 /* 
@@ -67,12 +74,16 @@ using namespace std; // so we dont have to constantly use std:: prefix
 */
 int main() 
 {
-	const int WORD_AMOUNT_INDEX = 3;
+
+	// for true random can't be placed inside of functions
+	srand(time(0)); // this allows us to use a seed so the random can actually be random each time of running the function. time(0) indicates the number of seconds start from january 1, 1970.
+
 	// const arrays
 	const char ENGLISH_ALPHABET[] = { 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', '\0' };
-	const string WORDS[WORD_AMOUNT_INDEX][WORD_AMOUNT_INDEX] = { {"Actor", "Ahead", "Alive"},
+	const string WORDS[3][3] = { {"Actor", "Ahead", "Alive"},
 		{"Quizzed", "Zizzled", "Wazzock"},
 		{"Maximizing", "Jackhammer", "Squeezable"}};
+	const int GUESS_LIMIT[] = { 5, 7, 10 };
 							
 
 
@@ -84,7 +95,9 @@ int main()
 	// bool controlled and flag controlled variables
 	bool quitProgram = false;
 
-	
+
+		
+	mainHangManFunc(hangmanWins, WORDS, GUESS_LIMIT, ENGLISH_ALPHABET);
 
 
 	//readWins(hangmanWins, pictionaryWins, boardGameWins);
@@ -112,11 +125,18 @@ int main()
 
 
 //This Function primary purpose is to as a random generator where the developer chooses up to what random number and what number the random number starts at		
-int randomResult(int upToWhatNumber, int WhatNumberToStartAt)
+int randomResult(int randomMaxSize, int randomStart = 0)
 {
-	int srand(time(0)); // this allows us to use a seed so the random can actually be random each time of running the function. time(0) indicates the number of seconds start from january 1, 1970.
-	return rand() % upToWhatNumber + WhatNumberToStartAt; // indicates that we want to start at position 1 and not position 0 because rand() indicates a position start at 0 without the + 1 in the end
+	if (randomStart > 0)
+	{
+		return rand() % randomMaxSize + randomStart;
+	}
+	else
+	{
+		return rand() % randomMaxSize;
+	}
 }
+
 
 // purpose of this function is to read the total wins, this was talked about and developed together at the zoom meeting, since we all inputted on this information together
 void readWins(int& firstGame, int& secondGame, int& thirdGame)
@@ -207,9 +227,236 @@ void writeWins(int& firstGame, int& secondGame, int& thirdGame)
 }
 
 
-
-
 // Rami's Function Definitions
+
+/*This is used to display the introduction of the hangMan Game*/
+void hangManIntroduction()
+{
+	cout << setw(10) << setfill('-') << "" << "Welcome to the Hangman Game" << setw(10) << setfill('-') << "" << endl;
+	cout << "The rules are: keep guessing the word per letter until you run out of guesses or you quit!" << endl;
+}
+
+
+/* The purpose of this function is to tell the user to input a difficulty choice which will 
+then be used to choose how long the word is, and theirs also a system implemented if the use inputs something else using the random function */
+int difficultyChoice(bool &quitVariable)
+{
+	char difficultyChoiceChar = 0;
+	int difficultyInInt = 0;
+	cout << "Please choose between Three Difficulty Levels: Easy(e), Medium(m), or Hard(h) or Quit(q)." << endl;
+	cout << "Please Enter Your Choice:";
+	cin >> difficultyChoiceChar;
+
+	switch (difficultyChoiceChar)
+	{
+	case 'e':
+	case 'E':
+		cout << "You have chosen Easy difficulty! Good Luck!" << endl;
+		difficultyInInt = 0;
+		return difficultyInInt;
+		break;
+	case 'm':
+	case 'M':
+		cout << "You have chosen Normal difficulty! Good Luck, Academic!" << endl;
+		difficultyInInt = 1;
+		return difficultyInInt;
+		break;
+	case 'h':
+	case 'H':
+		cout << "You have chosen Hard difficulty! Oh No!" << endl;
+		difficultyInInt = 2;
+		return difficultyInInt;
+		break;
+	case 'q':
+	case 'Q':
+		quitVariable = true;
+		break;
+	default:
+		cout << "You have pressed the wrong button and now as a bonus suprise, a difficulty will be randomly selected! Congradulations!" << endl;
+		difficultyInInt = randomResult(3);
+		return difficultyInInt;
+		break;
+	}
+}
+
+/*This function's purpose will use the variable returned by difficultyChoice and the randomresult function from 0-2 which will allow us to gain the word that will be used, in the hangman game and since we don't want the number to change through the scope
+we add const in front of it*/
+string choosingTheWord(const string stringArrayWord[][3], const int& intDifficulty)
+{	
+	
+	string wordChoice = stringArrayWord[intDifficulty][randomResult(3)];
+	return wordChoice;
+
+}
+
+/* The purpose of this function is to return the maximum number of guesses available */
+int maxGuesses(const int guessArray[], const int& intDifficulty)
+{
+	int MAX_GUESSES;
+	switch (intDifficulty)
+	{
+	case 0:
+		MAX_GUESSES = guessArray[intDifficulty];
+		return MAX_GUESSES;
+		break;
+	case 1:
+		MAX_GUESSES = guessArray[intDifficulty];
+		return MAX_GUESSES;
+		break;
+	case 2:
+		MAX_GUESSES = guessArray[intDifficulty];
+		return MAX_GUESSES;
+		break;
+	}
+}
+
+int choosingALetter(char& charInputOfLetter, bool& quitter)
+{
+
+	int choice = 0;
+	switch (charInputOfLetter)
+	{
+	case 'A':
+	case 'a':
+		return 0;
+	case 'B':
+	case 'b':
+		return 1;
+	case 'C':
+	case 'c':
+		return 2;
+	case 'D':
+	case 'd':
+		return 3;
+	case 'E':
+	case 'e':
+		return 4;
+	case 'F':
+	case 'f':
+		return 5;
+	case 'G':
+	case 'g':
+		return 6;
+	case 'H':
+	case 'h':
+		return 7;
+	case 'I':
+	case 'i':
+		return 8;
+	case 'J':
+	case 'j':
+		return 9;
+	case 'K':
+	case 'k':
+		return 10;
+	case 'L':
+	case 'l':
+		return 11;
+	case 'M':
+	case 'm':
+		return 12;
+	case 'N':
+	case 'n':
+		return 13;
+	case 'O':
+	case 'o':
+		return 14;
+	case 'P':
+	case 'p':
+		return 15;
+	case 'Q':
+	case 'q':
+		cout << "Did you mean to quit(1) or do you mean the letter q(2):";
+		cin >> choice;
+		if (choice == 1)
+		{
+			quitter = true;
+			break;
+		}
+		return 16;
+	case 'R':
+	case 'r':
+		return 17;
+	case 'S':
+	case 's':
+		return 18;
+	case 'T':
+	case 't':
+		return 19;
+	case 'U':
+	case 'u':
+		return 20;
+	case 'V':
+	case 'v':
+		return 21;
+	case 'W':
+	case 'w':
+		return 22;
+	case 'X':
+	case 'x':
+		return 23;
+	case 'Y':
+	case 'y':
+		return 24;
+	case 'Z':
+	case 'z':
+		return 25;
+	default:
+		cout << "Choosing a letter by random" << endl;
+		int letterChosen = randomResult(25);
+		return letterChosen;
+	}
+}
+
+
+
+/*This main function is in which every other function will be passed into and only this will will be called into main*/
+void mainHangManFunc(int& gameOneIncrement, const string stringArrayWords[][3], const int guessArray[], const char alphabet[])
+{
+	bool wordGuessed = false;
+	bool quitGame = false;
+
+	do {
+		
+		
+		hangManIntroduction();
+
+		int difficultyChoiceIntVariable = difficultyChoice(quitGame);
+
+		if (quitGame == true)
+		{
+			break;
+		}
+
+		string wordResult = choosingTheWord(stringArrayWords, difficultyChoiceIntVariable);
+
+		int wordLength = wordResult.length();
+
+		const int MAX_GUESSESS = maxGuesses(guessArray, difficultyChoiceIntVariable);
+
+		
+		for (int guesses = 0; guesses <= MAX_GUESSESS && wordGuessed != true; guesses++)
+		{
+			char letterChoice = 0;
+			cout << "Please Choose a letter from the Alphabet:";
+			cin >> letterChoice;
+
+			choosingALetter(letterChoice, quitGame);
+
+			if (quitGame == true)
+			{
+				break;
+			}
+
+
+
+		}
+		
+
+	} while (quitGame == false && wordGuessed != true);
+
+
+}
 
 // Emily's Function Definitions
 
