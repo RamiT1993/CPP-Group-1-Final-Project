@@ -36,7 +36,7 @@
 */
 
 // Every One Participated in the creation of these functions
-int randomResult(); 
+int randomResult(int, int); 
 
 void readWins(int&, int&, int&);
 
@@ -67,6 +67,15 @@ using namespace std; // so we dont have to constantly use std:: prefix
 */
 int main() 
 {
+	const int WORD_AMOUNT_INDEX = 3;
+	// const arrays
+	const char ENGLISH_ALPHABET[] = { 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', '\0' };
+	const string WORDS[WORD_AMOUNT_INDEX][WORD_AMOUNT_INDEX] = { {"Actor", "Ahead", "Alive"},
+		{"Quizzed", "Zizzled", "Wazzock"},
+		{"Maximizing", "Jackhammer", "Squeezable"}};
+							
+
+
 	// variables
 	int hangmanWins = 0;
 	int pictionaryWins = 0;
@@ -75,14 +84,16 @@ int main()
 	// bool controlled and flag controlled variables
 	bool quitProgram = false;
 
-	cout << hangmanWins << pictionaryWins << boardGameWins << endl;
-
-	readWins(hangmanWins, pictionaryWins, boardGameWins);
-
-	cout << hangmanWins << pictionaryWins << boardGameWins << endl;
+	
 
 
-	writeWins(hangmanWins, pictionaryWins, boardGameWins);
+	//readWins(hangmanWins, pictionaryWins, boardGameWins);
+	//writeWins(hangmanWins, pictionaryWins, boardGameWins);
+
+
+
+
+
 	
 	
 }
@@ -100,11 +111,11 @@ int main()
 // Every One Participated in the creation of these functions
 
 
-//This Function primary purpose is to act as a fail safe against user generated error when they choose which game and when to quit. We don't want the program to crash when the user messes up the button or key prompt		
-int randomResult()
+//This Function primary purpose is to as a random generator where the developer chooses up to what random number and what number the random number starts at		
+int randomResult(int upToWhatNumber, int WhatNumberToStartAt)
 {
 	int srand(time(0)); // this allows us to use a seed so the random can actually be random each time of running the function. time(0) indicates the number of seconds start from january 1, 1970.
-	return rand() % 3 + 1; // indicates that we want to start at position 1 and not position 0 because rand() indicates a position start at 0 without the + 1 in the end
+	return rand() % upToWhatNumber + WhatNumberToStartAt; // indicates that we want to start at position 1 and not position 0 because rand() indicates a position start at 0 without the + 1 in the end
 }
 
 // purpose of this function is to read the total wins, this was talked about and developed together at the zoom meeting, since we all inputted on this information together
