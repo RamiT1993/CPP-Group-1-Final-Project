@@ -460,18 +460,24 @@ void mainHangManFunc(int& gameOneIncrement, string stringArrayWords[][3], const 
 			for (int letterLocation = 0; letterLocation <= wordLength; letterLocation++)
 			{
 				
-
-				if (alphabet[trueChoice] ==  static_cast<char>(tolower(wordResult[letterLocation])))
+				int indexHolder = -1;
+				if (alphabet[trueChoice] == static_cast<char>(tolower(wordResult[letterLocation])))
 				{
 					//cout << " wordResult:" << wordResult[letterLocation] << " alphabet:" <<alphabet[trueChoice];
+					
 
-					guessedWordArray[letterLocation] = static_cast<char>(tolower(wordResult[letterLocation]));
-					int indexHolder = letterLocation;
+					indexHolder = letterLocation;
+					
 
 
 
-					cout << endl;
+					
 				}
+				if (indexHolder >= 0 && indexHolder <= 10)
+				{
+					guessedWordArray[indexHolder] = static_cast<char>(tolower(wordResult[indexHolder]));
+				}
+				
 
 			
 
