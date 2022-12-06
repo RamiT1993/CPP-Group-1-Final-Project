@@ -26,7 +26,7 @@
 #include <cstdlib> // for random use
 #include <cmath> // maybe? in case we use it later otherwise deletion
 #include <cctype> // maybe? in case we use it later otherwise deletion
-
+using namespace std;
 /* 
 	PreProcessor Directives Section End 
 */
@@ -54,7 +54,345 @@ void writeWins(int&, int&, int&);
 // Emily's Function Prototypes
 
 // Hunter's Function Prototypes
+void Pictionary(int& wins)
+{
+	int selection;
+	int counter = 6;
+	string guess;
+	int increment = 1;
+	int i = 0;
+	char response = ' ';
+	bool playagain = true;
+	cout << "!!!!!INSTRUCTIONS!!!!!" << endl << "In this game the objective is to guess what the photo you select is" << endl << " The more wrong guesses you have the easier it will be to guess the photo you have 5 guesses for each photo."<< endl;
+	while (playagain == true){
+		cout << "Pick a number 1 to 3 (Input as 1,2, or 3) to pick the photo you would like to guess: ";
+		cin >> selection;
+		cout << endl << "You have selected photo number " << selection << " you will have 5 guesses to figure out the photo or you will lose." << endl;
+		if (selection == 1)
+		{
 
+			while (guess != "horse" && playagain != false)
+			{
+
+				i++;
+				switch (i) {
+				case '1':
+
+					cout << "__________________________________________AIgg" << endl << "_____________________________________gggggggggg_" << endl << "__________________________________ggggggggggg0gg" << endl << "_______________________________ggggggggggggggggggg" << endl;
+					cout << "Please enter your 1st guess: " << endl;
+					cin >> guess;
+					cout << endl;
+					if (guess == "horse" || guess == "Horse")
+					{
+						cout << " You got it the answer is horse" << endl;
+						guess = "horse";
+						wins = wins + increment;
+
+					}
+					break;
+				case '2':
+
+					cout << "__________________________________________AIgg" << endl << "_____________________________________gggggggggg_" << endl << "__________________________________ggggggggggg0gg" << endl << "_______________________________ggggggggggggggggggg" << endl;
+					cout << "_____ggg____ggggggg__________gggggggggggg_____ggggg" << endl << "__ggggggggggggggggggggggggggggggggggggggg" << endl << "_gggggg__ggggggggggggggggggggggggggggggg" << endl << "gggggg___gggggggggggggggggggggggggggggg" << endl;
+					cout << "Please enter your 2nd guess: " << endl;
+					cin >> guess;
+					cout << endl;
+					if (guess == "horse" || guess == "Horse")
+					{
+						cout << " You got it the answer is horse" << endl;
+						guess = "horse";
+						wins = wins + increment;
+
+					}
+					break;
+				case '3':
+
+					cout << "__________________________________________AIgg" << endl << "_____________________________________gggggggggg_" << endl << "__________________________________ggggggggggg0gg" << endl << "_______________________________ggggggggggggggggggg" << endl;
+					cout << "_____ggg____ggggggg__________gggggggggggg_____ggggg" << endl << "__ggggggggggggggggggggggggggggggggggggggg" << endl << "_gggggg__ggggggggggggggggggggggggggggggg" << endl << "gggggg___gggggggggggggggggggggggggggggg" << endl;
+					cout << "ggggg____ggggggggggggggggggggggggggggg" << endl << "gg_________ggggggggggggggggggggggggggg" << endl << "__________gggggggg_gggggggggggggggggg" << endl << "______gggggggggggg_____________ggggggg" << endl;
+					cout << "Please enter your 3rd guess: " << endl;
+					cin >> guess;
+					cout << endl;
+					if (guess == "horse" || guess == "Horse")
+					{
+						cout << " You got it the answer is horse" << endl;
+						guess = "horse";
+						wins = wins + increment;
+
+					}
+					break;
+				case '4':
+
+					cout << "__________________________________________AIgg" << endl << "_____________________________________gggggggggg_" << endl << "__________________________________ggggggggggg0gg" << endl << "_______________________________ggggggggggggggggggg" << endl;
+					cout << "_____ggg____ggggggg__________gggggggggggg_____ggggg" << endl << "__ggggggggggggggggggggggggggggggggggggggg" << endl << "_gggggg__ggggggggggggggggggggggggggggggg" << endl << "gggggg___gggggggggggggggggggggggggggggg" << endl;
+					cout << "ggggg____ggggggggggggggggggggggggggggg" << endl << "gg_________ggggggggggggggggggggggggggg" << endl << "__________gggggggg_gggggggggggggggggg" << endl << "______gggggggggggg_____________ggggggg" << endl;
+					cout << "_____gggg____gggg________________ggggg" << endl << "_____ggR_____ggg___________________gggg" << endl << "_____gg_____gggg___________ggg__ggggggggg" << endl << "____ggg______ggg____________gggggg____ggg" << endl;
+					cout << "Please enter your 4th guess: " << endl;
+					cin >> guess;
+					cout << endl;
+					if (guess == "horse" || guess == "Horse")
+					{
+						cout << " You got it the answer is horse" << endl;
+						guess = "horse";
+						wins = wins + increment;
+
+					}
+					break;
+				case '5':
+
+					cout << "__________________________________________AIgg" << endl << "_____________________________________gggggggggg_" << endl << "__________________________________ggggggggggg0gg" << endl << "_______________________________ggggggggggggggggggg" << endl;
+					cout << "_____ggg____ggggggg__________gggggggggggg_____ggggg" << endl << "__ggggggggggggggggggggggggggggggggggggggg" << endl << "_gggggg__ggggggggggggggggggggggggggggggg" << endl << "gggggg___gggggggggggggggggggggggggggggg" << endl;
+					cout << "ggggg____ggggggggggggggggggggggggggggg" << endl << "gg_________ggggggggggggggggggggggggggg" << endl << "__________gggggggg_gggggggggggggggggg" << endl << "______gggggggggggg_____________ggggggg" << endl;
+					cout << "_____gggg____gggg________________ggggg" << endl << "_____ggR_____ggg___________________gggg" << endl << "_____gg_____gggg___________ggg__ggggggggg" << endl << "____ggg______ggg____________gggggg____ggg" << endl;
+					cout << "__gggg_________ggg______________________gg" << endl << "__gg____________ggg______________________gg" << endl << "_________________gggg_____________________ggg" << endl << "__________________gggg_____________________ggg" << endl;
+					cout << "Please enter your 5th and final guess: " << endl;
+					cin >> guess;
+					cout << endl;
+					if (guess == "horse" || guess == "Horse")
+					{
+						cout << " You got it the answer is horse" << endl;
+						guess = "horse";
+						wins = wins + increment;
+
+					}
+					break;
+				case '6':
+					cout << "Better luck next time ):" << endl;
+					guess = "lose";
+
+					break;
+				}
+				if (guess == "lose") {
+					break;
+				}
+
+
+
+			}
+
+		}
+		if (selection == 2 && playagain != false)
+		{
+
+			while (guess != "turtle")
+			{
+
+				i++;
+				switch (i) {
+				case '1':
+					cout << "__________________$$$$$$$$" << endl << "________________$$$_$$$$$_$$" << endl << "______________$$$$$$$$$_$$$$$$" << endl;
+					cin >> guess;
+					cout << endl;
+					if (guess == "turtle" || guess == "Turtle")
+					{
+						cout << " You got it the answer is turtle" << endl;
+						guess = "turtle";
+						wins = wins + increment;
+
+					}
+					break;
+				case '2':
+					cout << "__________________$$$$$$$$" << endl << "________________$$$_$$$$$_$$" << endl << "______________$$$$$$$$$_$$$$$$" << endl;
+					cout << "____________$$$$$_$$$_$$$_$$$$$" << endl << "_$$$$$$____$$$$_$$$_$$$_$$$_$$$$" << endl;
+					cout << "Please enter your 2nd guess: " << endl;
+					cin >> guess;
+					cout << endl;
+					if (guess == "turtle" || guess == "Turtle")
+					{
+						cout << " You got it the answer is turtle" << endl;
+						guess = "turtle";
+						wins = wins + increment;
+
+					}
+					break;
+				case '3':
+
+					cout << "__________________$$$$$$$$" << endl << "________________$$$_$$$$$_$$" << endl << "______________$$$$$$$$$_$$$$$$" << endl;
+					cout << "____________$$$$$_$$$_$$$_$$$$$" << endl << "_$$$$$$____$$$$_$$$_$$$_$$$_$$$$" << endl;
+					cout << "$¶_$¶_$$$_$$$_$$$_$$$_$$$_$$$_$$$" << endl << "$______$_$$_$$$_$$$_$$$_$$$_$$$_$$$__$$" << endl;
+					cout << "Please enter your 3rd guess: " << endl;
+					cin >> guess;
+					cout << endl;
+					if (guess == "turtle" || guess == "Turtle")
+					{
+						cout << " You got it the answer is turtle" << endl;
+						guess = "turtle";
+						wins = wins + increment;
+
+					}
+					break;
+				case '4':
+
+					cout << "__________________$$$$$$$$" << endl << "________________$$$_$$$$$_$$" << endl << "______________$$$$$$$$$_$$$$$$" << endl;
+					cout << "____________$$$$$_$$$_$$$_$$$$$" << endl << "_$$$$$$____$$$$_$$$_$$$_$$$_$$$$" << endl;
+					cout << "$¶_$¶_$$$_$$$_$$$_$$$_$$$_$$$_$$$" << endl << "$______$_$$_$$$_$$$_$$$_$$$_$$$_$$$__$$" << endl;
+					cout << "_$_$__$__$$$$_$$$_$$$_$$$_$$$_$$$$$$_$$" << endl << "__$$$_$$$$$$$$$$$$$$$$$_$$$$$$$$$$$$$" << endl;
+					cout << "Please enter your 4th guess: " << endl;
+					cin >> guess;
+					cout << endl;
+					if (guess == "turtle" || guess == "Turtle")
+					{
+						cout << " You got it the answer is turtle" << endl;
+						guess = "turtle";
+						wins = wins + increment;
+
+					}
+					break;
+				case '5':
+
+					cout << "__________________$$$$$$$$" << endl << "________________$$$_$$$$$_$$" << endl << "______________$$$$$$$$$_$$$$$$" << endl;
+					cout << "____________$$$$$_$$$_$$$_$$$$$" << endl << "_$$$$$$____$$$$_$$$_$$$_$$$_$$$$" << endl;
+					cout << "$¶_$¶_$$$_$$$_$$$_$$$_$$$_$$$_$$$" << endl << "$______$_$$_$$$_$$$_$$$_$$$_$$$_$$$__$$" << endl;
+					cout << "_$_$__$__$$$$_$$$_$$$_$$$_$$$_$$$$$$_$$" << endl << "__$$$_$$$$$$$$$$$$$$$$$_$$$$$$$$$$$$$" << endl;
+					cout << "___________$$$$$$$_$$$$$$$_$_$$$$" << endl << "_________$$_$___$$_$____$$_$___$_$" << endl << "________$$$$$__$$$$$___$$$$$__$$$$$" << endl;
+					cout << "Please enter your 5th and final guess: " << endl;
+					cin >> guess;
+					cout << endl;
+					if (guess == "turtle" || guess == "Turtle")
+					{
+						cout << " You got it the answer is turtle" << endl;
+						guess = "turtle";
+						wins = wins + increment;
+
+					}
+					break;
+				case '6':
+					cout << "Better luck next time ):" << endl;
+					guess = "lose";
+
+					break;
+				}
+				if (guess == "lose") {
+					break;
+				}
+
+
+
+			}
+
+		}
+		if (selection == 3 && playagain != false)
+		{
+			while (guess != "crab")
+			{
+
+				i++;
+				switch (i) {
+				case '1':
+
+					cout << "______$$_____________________ $$" << endl << "____$$$__$__________________$__$$$" << endl << "___$$$___$$________________$$___$$$" << endl << "___$$$$$$$$________________$$$$$$$$" << endl;
+					
+					cout << "Please enter your 1st guess: " << endl;
+					cin >> guess;
+					cout << endl;
+					if (guess == "crab" || guess == "Crab")
+					{
+						cout << " You got it the answer is crab" << endl;
+						guess = "crab";
+						wins = wins + increment;
+
+					}
+					break;
+				case '2':
+					cout << "______$$_____________________ $$" << endl << "____$$$__$__________________$__$$$" << endl << "___$$$___$$________________$$___$$$" << endl << "___$$$$$$$$________________$$$$$$$$" << endl;
+					cout << "____$$$$$$__________________$$$$$$" << endl << "_____$$$$____$$0$$$$$0$$$____$$$$" << endl << "_______$$__$$$$$$$$$$$$$$$$__$$" << endl << "___$$___$$$$$$$$$$$$$$$$$$$$$$___$$" << endl;
+
+					cout << "Please enter your 2nd guess: " << endl;
+					cin >> guess;
+					cout << endl;
+					if (guess == "crab" || guess == "Crab")
+					{
+						cout << " You got it the answer is crab" << endl;
+						guess = "crab";
+						wins = wins + increment;
+
+					}
+					break;
+				case '3':
+					cout << "______$$_____________________ $$" << endl << "____$$$__$__________________$__$$$" << endl << "___$$$___$$________________$$___$$$" << endl << "___$$$$$$$$________________$$$$$$$$" << endl;
+					cout << "____$$$$$$__________________$$$$$$" << endl << "_____$$$$____$$0$$$$$0$$$____$$$$" << endl << "_______$$__$$$$$$$$$$$$$$$$__$$" << endl << "___$$___$$$$$$$$$$$$$$$$$$$$$$___$$" << endl;
+					cout << "_$$__$$__$$$$$$$$$$$$$$$$$$$$__$$__$$" << endl << "$______$$$$$$$$$$$$$$$$$$$$$$$$______$" << endl << "$__$$$____$$$$$$$$$$$$$$$$$$____$$$__$" << endl;
+
+					cout << "Please enter your 3rd guess: " << endl;
+					cin >> guess;
+					cout << endl;
+					if (guess == "crab" || guess == "Crab")
+					{
+						cout << " You got it the answer is crab" << endl;
+						guess = "crab";
+						wins = wins + increment;
+
+					}
+					break;
+				case '4':
+					cout << "______$$_____________________ $$" << endl << "____$$$__$__________________$__$$$" << endl << "___$$$___$$________________$$___$$$" << endl << "___$$$$$$$$________________$$$$$$$$" << endl;
+					cout << "____$$$$$$__________________$$$$$$" << endl << "_____$$$$____$$0$$$$$0$$$____$$$$" << endl << "_______$$__$$$$$$$$$$$$$$$$__$$" << endl << "___$$___$$$$$$$$$$$$$$$$$$$$$$___$$" << endl;
+					cout << "_$$__$$__$$$$$$$$$$$$$$$$$$$$__$$__$$" << endl << "$______$$$$$$$$$$$$$$$$$$$$$$$$______$" << endl << "$__$$$____$$$$$$$$$$$$$$$$$$____$$$__$" << endl;
+					cout << "__$___$$$$_$$$$$$$$$$$$$$$$_$$$$___$" << endl << "_$_________$_$$$$$$$$$$$$_$_________$" << endl << "_$______$$$________________$$$______$" << endl;
+					cout << "Please enter your 4th guess: " << endl;
+					cin >> guess;
+					cout << endl;
+					if (guess == "crab" || guess == "Crab")
+					{
+						cout << " You got it the answer is crab" << endl;
+						guess = "crab";
+						wins = wins + increment;
+
+					}
+					break;
+				case '5':
+					cout << "______$$_____________________ $$" << endl << "____$$$__$__________________$__$$$" << endl << "___$$$___$$________________$$___$$$" << endl << "___$$$$$$$$________________$$$$$$$$" << endl;
+					cout << "____$$$$$$__________________$$$$$$" << endl << "_____$$$$____$$0$$$$$0$$$____$$$$" << endl << "_______$$__$$$$$$$$$$$$$$$$__$$" << endl << "___$$___$$$$$$$$$$$$$$$$$$$$$$___$$" << endl;
+					cout << "_$$__$$__$$$$$$$$$$$$$$$$$$$$__$$__$$" << endl << "$______$$$$$$$$$$$$$$$$$$$$$$$$______$" << endl << "$__$$$____$$$$$$$$$$$$$$$$$$____$$$__$" << endl;
+					cout << "__$___$$$$_$$$$$$$$$$$$$$$$_$$$$___$" << endl << "_$_________$_$$$$$$$$$$$$_$_________$" << endl << "_$______$$$________________$$$______$" << endl;
+					cout << "_______$______________________$" << endl << "______$________________________$" << endl << "______$_______________________ _$" << endl;
+
+					cout << "Please enter your 5th and final guess: " << endl;
+					cin >> guess;
+					cout << endl;
+					if (guess == "crab" || guess == "Crab")
+					{
+						cout << " You got it the answer is crab" << endl;
+						guess = "crab";
+						wins = wins + increment;
+
+					}
+					break;
+				case '6':
+					cout << "Better luck next time ):" << endl;
+					guess = "lose";
+
+					break;
+				}
+				if (guess == "lose") {
+					break;
+				}
+
+
+
+			}
+
+		}
+		cout << "would you like to play again(y or n)?";
+		cin >> response;
+		cout << endl;
+		switch (response) {
+		case 'y':
+		case 'Y':
+			i = 0;
+			selection = 0;
+			guess.clear();
+			break;
+		case 'n':
+		case 'N':
+			playagain = false;
+			break;
+
+		}
+		
+	}
+
+}
 /* 
 	Function ProtoType Section End  
 */
@@ -67,11 +405,13 @@ using namespace std; // so we dont have to constantly use std:: prefix
 */
 int main() 
 {
+
 	// variables
 	int hangmanWins = 0;
 	int pictionaryWins = 0;
 	int boardGameWins = 0;
-
+	
+	;
 	// bool controlled and flag controlled variables
 	bool quitProgram = false;
 
