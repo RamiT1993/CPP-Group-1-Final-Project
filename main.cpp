@@ -522,7 +522,7 @@ void BoardGame()
 	// Call the function that will display a welcome message and tell the user the rules of the game.
 	WelcomeAndRules();
 	// Declare a variable to hold the number of players.
-	int numberOfPlayers;
+	int numberOfPlayers = 0;
 	// Use a do...while loop to ask for the number of players until valid input is given.
 	do
 	{
