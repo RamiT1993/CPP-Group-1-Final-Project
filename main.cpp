@@ -11,13 +11,10 @@
 		You choose a game to play or at random if not chosen a game to play it will be selected randomly and you play a small mini-game in which you follow a set of rules to play the game.
 
 	You must give ample description for each function you create
-
 */
 
+// Start of preprocessor directives section
 
-/*
-	PreProcessor Directives Section Start
-*/
 #include <iostream> // for input and output default stream use
 #include <string> // for string data type use
 #include <iomanip> // output manipulation
@@ -29,25 +26,18 @@
 
 using namespace std; // so we dont have to constantly use std:: prefix
 
-/*
-	PreProcessor Directives Section End
-*/
+// End of preprocessor directives section
 
-/*
-	Function Prototype section put the function you created inside of your section
-*/
+// Start of function prototype section
 
-// Every One Participated in the creation of these functions
+// Every One Participated in the creation of the following functions
 int randomResult(int, int);
-
 void readWins(int&, int&, int&);
-
 void writeWins(int&, int&, int&);
-
 
 //void mainLoop(int&, int&, int&); maybe like this
 
-// Rami's Function Prototypes
+// Rami's function prototypes
 
 int difficultyChoiceAndSpacingAndGuess(bool& quitVariable, string& actualWordChosen, const string stringArrayWord[][9], string& amountOfSpacesBasedUponDifficulty, const int guessArrayes[], int& max_guesses);
 //string choosingTheWord(const string stringArrayWord[][3], const int& intDifficulty, string& returnToThis);
@@ -55,27 +45,17 @@ int difficultyChoiceAndSpacingAndGuess(bool& quitVariable, string& actualWordCho
 int choosingALetter(char& charInputOfLetter, bool& quitter);
 void mainHangManFunc(int& gameOneIncrement, const string stringArrayWords[][9], const int guessArray[], char alphabet[], const int& m);
 
-
-
-
 // Emily's Function Prototypes
 
 // Hunter's Function Prototypes
 
-/*
-	Function ProtoType Section End
-*/
+// End of function prototype section
 
+// Start of main function section
 
-
-
-/*
-	Main Function Start
-*/
 int main()
 {
-
-	// const arrays required for HangMan Game
+	// Rami: const arrays required for HangMan Game
 	const int ALPHABET_LIMIT = 26;
 	const int GUESS_LIMIT[] = { 5, 7, 10 };
 	const string WORDS[3][9] = { {"actor", "ahead", "alive", "gazal", "namer", "slump", "folio", "jello", "libel"},
@@ -83,42 +63,33 @@ int main()
 		{"maximizing", "jackhammer", "squeezable", "habitation", "iceboaters", "maccaronis", "obidences", "quadcopter", "sabertooth"} };
 
 	char english_alphabet[ALPHABET_LIMIT]{};
-	// const array for hangManGame End
+	// Rami: End of const arrays for hangManGame
 
-	// for true random can't be placed inside of functions
+	// For true random can't be placed inside of functions
 	srand(time(0)); // this allows us to use a seed so the random can actually be random each time of running the function. time(0) indicates the number of seconds start from january 1, 1970.
 
-
-	// variables to iterate wins
+	// Variables to iterate wins
 	int hangmanWins = 0;
 	int pictionaryWins = 0;
 	int boardGameWins = 0;
 
-
-	// bool to quit game.
+	// Boolean to quit game.
 	bool quitProgram = false;
-
 
 	readWins(hangmanWins, pictionaryWins, boardGameWins);
 	mainHangManFunc(hangmanWins, WORDS, GUESS_LIMIT, english_alphabet, ALPHABET_LIMIT);
 	writeWins(hangmanWins, pictionaryWins, boardGameWins);
 
-
-
 }
-/*
-	Main Function End
-*/
 
+// End of main function section
 
-/*
-	Function Definition(s) Start
-*/
+// Start of function definitions section
 
-// Every One Participated in the creation of these functions
+// Everyone participated in the creation of the following functions
 
+// This function's primary purpose is to randomly generate a number. The developer chooses the range of numbers.
 
-//This Function primary purpose is to as a random generator where the developer chooses up to what random number and what number the random number starts at		
 int randomResult(int randomMaxSize, int randomStart = 0)
 {
 	if (randomStart > 0)
@@ -131,20 +102,19 @@ int randomResult(int randomMaxSize, int randomStart = 0)
 	}
 }
 
-
-// purpose of this function is to read the total wins, this was talked about and developed together at the zoom meeting, since we all inputted on this information together
+// The purpose of this function is to read the total wins. This was talked about and developed together at the Zoom meeting, since we all contributed to this information together.
 void readWins(int& firstGame, int& secondGame, int& thirdGame)
 {
-	ifstream winningOutput; // creates a variable for writing
-	winningOutput.open("totalWins.txt"); // opens the file for reading
+	ifstream winningOutput; // Creates an input file stream variable to which we will write the wins.
+	winningOutput.open("totalWins.txt"); // Opens the file
 	if (winningOutput) // (filestreamvariable) checks if file exists (!filestreamvariable) checks if file stream variable file does not exist
 	{
-		string tempHolder; // used just to hold the total wins from each game and gets deleted once it exits the scope
-		int wins = 0; // holds the read file wins
-		int winsArray[3]{}; // holds the wins from all three game to then be inputted later in the reference variables in array format
-		int arrayControlVariable = 0; // control the array element so it does not go out of scope
+		string tempHolder; // Holds the total wins from each game and is deleted once it exits the scope
+		int wins = 0; // Holds the read file wins
+		int winsArray[3]{}; // Holds the wins from all three game to then be input later in the reference variables in array format
+		int arrayControlVariable = 0; // Control the array element so it does not go out of scope
 
-		// this whole section makes sure that the file does not reach the end of the array and goes out of scope and se
+		// This section ensures that the file does not reach the end of the array and go out of scope
 		while (!winningOutput.eof() && winningOutput >> tempHolder >> tempHolder >> wins && arrayControlVariable != 3)
 		{
 			if (wins <= 0)
@@ -165,10 +135,7 @@ void readWins(int& firstGame, int& secondGame, int& thirdGame)
 		secondGame = winsArray[1];
 		thirdGame = winsArray[2];
 
-
 		//cout << firstGame << " " << secondGame << " " << thirdGame;
-
-
 	}
 	else
 	{
@@ -177,7 +144,6 @@ void readWins(int& firstGame, int& secondGame, int& thirdGame)
 		secondGame = 0;
 		thirdGame = 0;
 		// cout << firstGame << secondGame << thirdGame; used to check if wins are set to 0
-
 	}
 
 	winningOutput.close(); // to close the file after opening it of course.
@@ -220,8 +186,7 @@ void writeWins(int& firstGame, int& secondGame, int& thirdGame)
 	writeToWinFile.close();
 }
 
-
-// Rami's Function Definitions
+// Start of Rami's function definitions
 
 /* This function has three different purposes:
 *
@@ -269,7 +234,6 @@ int difficultyChoiceAndSpacingAndGuess(bool& quitVariable, string& actualWordCho
 	// if default is activated in the switch structure
 	if (quitVariable == false)
 	{
-
 		if (difficultyInInt == 0)
 		{
 			amountOfSpacesBasedUponDifficulty = "     ";
@@ -291,11 +255,6 @@ int difficultyChoiceAndSpacingAndGuess(bool& quitVariable, string& actualWordCho
 		actualWordChosen = stringArrayWord[difficultyInInt][randomResult(9)];
 		return difficultyInInt;
 	}
-
-
-
-
-
 }
 
 /* The primary purpose of this function is a quick way to get the index of the alphabet array and return as an int,
