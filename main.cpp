@@ -27,6 +27,8 @@
 #include <cmath> // maybe? in case we use it later otherwise deletion
 #include <cctype> // useful for changing a character tolower but remember it changes to an int
 
+using namespace std; // so we dont have to constantly use std:: prefix
+
 /*
 	PreProcessor Directives Section End
 */
@@ -43,13 +45,9 @@ void readWins(int&, int&, int&);
 void writeWins(int&, int&, int&);
 
 
-
 //void mainLoop(int&, int&, int&); maybe like this
 
-
-using namespace std; // so we dont have to constantly use std:: prefix
 // Rami's Function Prototypes
-
 
 int difficultyChoiceAndSpacingAndGuess(bool& quitVariable, string& actualWordChosen, const string stringArrayWord[][9], string& amountOfSpacesBasedUponDifficulty, const int guessArrayes[], int& max_guesses);
 //string choosingTheWord(const string stringArrayWord[][3], const int& intDifficulty, string& returnToThis);
@@ -539,11 +537,7 @@ void mainHangManFunc(int& gameOneIncrement, const string stringArrayWords[][9], 
 
 }
 
-// Emily's Function Definitions
-
 // Hunter's Function Definitions
 
+// Emily's Section: The Board Game
 
-/*
-	Function Definition End
-*/
