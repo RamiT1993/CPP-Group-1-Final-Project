@@ -62,6 +62,8 @@ void mainHangManFunc(int& gameOneIncrement, const string stringArrayWords[][9], 
 void BoardGame();
 void WelcomeAndRules();
 void DeclarePlayers(int numberOfPlayers, bool isPlayingCPU, player arrayOfPlayers[]);
+int RollDie();
+bool TakeTurn(int playerNumber, player arrayOfPlayers[]);
 
 // Hunter's Function Prototypes
 
@@ -540,6 +542,17 @@ void BoardGame()
 	player arrayOfPlayers[numberOfPlayers];
 	// Call the function that will set up each player's information.
 	DeclarePlayers(numberOfPlayers, isPlayingCPU, arrayOfPlayers);
+	// Call the function to have each player take their turn.
+	bool win;
+	do
+	{
+		for (int playerNumber = 0; playerNumber < numberOfPlayers; playerNumber++)
+		{
+			win = TakeTurn(playerNumber, arrayOfPlayers);
+		}
+	} while (!win);
+	
+	
 }
 
 // This function will display a welcome message and tell the user the rules of the game.
@@ -648,6 +661,8 @@ bool TakeTurn(int playerNumber, player arrayOfPlayers[])
 			cout << "You landed on a secret passage! Go forward 4 more spaces. You are now on space " << arrayOfPlayers[playerNumber].currentSpace << endl;
 			break;
 	}
+	// Return false if the player made it through this turn without winning.s
+	return false;
 }
 
 // End of Emily's section: The board game
