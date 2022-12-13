@@ -559,6 +559,7 @@ void WelcomeAndRules()
 
 // This function will set up each player's inforamtion.
 void DeclarePlayers(int numberOfPlayers, bool isPlayingCPU, player arrayOfPlayers[])
+
 {
 	if (numberOfPlayers > 1 && isPlayingCPU == false)
 	{
@@ -588,6 +589,64 @@ void DeclarePlayers(int numberOfPlayers, bool isPlayingCPU, player arrayOfPlayer
 			arrayOfPlayers[1].userName = "Mr. CPU";
 			arrayOfPlayers[1].gamePiece = '?';
 			arrayOfPlayers[1].currentSpace = 0;
+	}
+}
+
+// This function will "roll a die" by generating a random number from 1 to 6.
+int RollDie()
+{
+	// Randomly generate a number from 0 to 5, then add 1 to make it 1 through 6, like the faces of a die.
+	int dieRoll = randomResult(5) + 1;
+	return dieRoll;
+}
+
+// This function will simulate a user taking their turn. It will return a boolean value of true if someone wins.
+bool TakeTurn(int playerNumber, player arrayOfPlayers[])
+{
+	// Say whose turn it is and tell them that the die will be rolled.
+	cout << arrayOfPlayers[playerNumber].userName << "'s turn! Rolling die..." << endl;
+	// Roll the die.
+	int rollResult = RollDie();
+	// Show what the player rolled.
+	cout << arrayOfPlayers[playerNumber].userName << " rolled a " << rollResult << endl;
+	// Move the player's piece that number of spaces.
+	cout << "Advancing " << rollResult << " spaces..." << endl;
+	arrayOfPlayers[playerNumber].currentSpace += rollResult;
+	// If the player lands on or passes the hundredth space, tell them they won, and break out of this function.
+	if (arrayOfPlayers[playerNumber].currentSpace >= 100)
+	{
+		cout << arrayOfPlayers[playerNumber].userName << " wins!";
+		return true;
+	}
+	// Handle trick spaces.
+	switch (arrayOfPlayers[playerNumber].currentSpace)
+	{
+		case 7:
+		case 14:
+		case 27:
+		case 31:
+		case 45:
+		case 53:
+		case 68:
+		case 79:
+		case 82:
+		case 96:
+			arrayOfPlayers[playerNumber].currentSpace -= 3;
+			cout << "You landed on a trapdoor! Go back 3 spaces. You are now on space " << arrayOfPlayers[playerNumber].currentSpace << endl;
+			break;
+		case 2:
+		case 19:
+		case 25:
+		case 33:
+		case 42:
+		case 56:
+		case 64:
+		case 78:
+		case 87:
+		case 91:
+			arrayOfPlayers[playerNumber].currentSpace += 4;
+			cout << "You landed on a secret passage! Go forward 4 more spaces. You are now on space " << arrayOfPlayers[playerNumber].currentSpace << endl;
+			break;
 	}
 }
 
