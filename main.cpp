@@ -498,5 +498,26 @@ void mainHangManFunc(int& gameOneIncrement, const string stringArrayWords[][9], 
 
 // Hunter's Function Definitions
 
-// Emily's Section: The Board Game
+// Start of Emily's section: The board game
 
+// This is the main board game function. Call this function to run the board game.
+void BoardGame()
+{
+	WelcomeAndRules();
+}
+
+// This function will display a welcome message and tell the user the rules of the game.
+void WelcomeAndRules()
+{
+	// Print a blank line between the prior output and the welcome message.
+	cout << endl;
+
+	// Print the welcome message and rules.
+	cout << "Welcome to Board Game Bonanza! This is a board game for 1 to 4 players. "
+		<< "Players roll a die and advance that number of spaces. The first player "
+		<< "to land on or pass the hundredth space wins. Watch out for those trick "
+		<< "spaces! Trapdoors set you back, whereas secret passages give you a leg "
+		<< "up on the competition. Let's play!" << endl << endl;
+}
+
+// End of Emily's section: The board game
