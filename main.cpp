@@ -61,7 +61,7 @@ void mainHangManFunc(int& gameOneIncrement, const string stringArrayWords[][9], 
 
 void BoardGame();
 void WelcomeAndRules();
-void DeclarePlayers(player arrayOfPlayers[], numberOfPlayers)
+void DeclarePlayers(int numberOfPlayers, bool isPlayingCPU, player arrayOfPlayers[]);
 
 // Hunter's Function Prototypes
 
@@ -531,10 +531,15 @@ void BoardGame()
 		// Read the number of players.
 		cin >> numberOfPlayers;
 	} while (numberOfPlayers < 1 || numberOfPlayers > 4);
+	// If they choose only 1 player, change it to 2 players. The second player will be the CPU.
+	bool isPlayingCPU = false;
+	if (numberOfPlayers == 1)
+		isPlayingCPU = true;
+		numberOfPlayers++;
 	// Create an array of structures to hold each player's information.
 	player arrayOfPlayers[numberOfPlayers];
 	// Call the function that will set up each player's information.
-	DeclarePlayers(arrayOfPlayers, numberOfPlayers);
+	DeclarePlayers(numberOfPlayers, isPlayingCPU, arrayOfPlayers);
 }
 
 // This function will display a welcome message and tell the user the rules of the game.
@@ -553,11 +558,36 @@ void WelcomeAndRules()
 }
 
 // This function will set up each player's inforamtion.
-void DeclarePlayers(player arrayOfPlayers[], numberOfPlayers)
+void DeclarePlayers(int numberOfPlayers, bool isPlayingCPU, player arrayOfPlayers[])
 {
-	if (numberOfPlayers > 1)
+	if (numberOfPlayers > 1 && isPlayingCPU == false)
 	{
-
+		for (int playerNumber = 0; playerNumber < numberOfPlayers; playerNumber++)
+		{
+			// Ask each player for their name.
+			cout << "Player " << playerNumber + 1 << "'s name: ";
+			cin >> arrayOfPlayers[playerNumber].userName;
+			// Ask each player to choose a game piece, like how you can be the thimble in Monopoly.
+			cout << "Choose a game piece (type a keyboard character): ";
+			cin >> arrayOfPlayers[playerNumber].gamePiece;
+			// Start each player at the beginning of the board.
+			arrayOfPlayers[playerNumber].currentSpace = 0;
+		}
+	}
+	else
+	{
+			// Ask the solo player for their name.
+			cout << "Player 1's name: ";
+			cin >> arrayOfPlayers[0].userName;
+			// Ask the solo player to choose a game piece, like how you can be the thimble in Monopoly.
+			cout << "Choose a game piece (type a keyboard character): ";
+			cin >> arrayOfPlayers[0].gamePiece;
+			// Start the solo player at the beginning of the board.
+			arrayOfPlayers[0].currentSpace = 0;
+			// Create the CPU player.
+			arrayOfPlayers[1].userName = "Mr. CPU";
+			arrayOfPlayers[1].gamePiece = '?';
+			arrayOfPlayers[1].currentSpace = 0;
 	}
 }
 
