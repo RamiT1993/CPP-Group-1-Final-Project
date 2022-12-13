@@ -36,7 +36,7 @@ struct player
 	string userName;
 	char gamePiece;
 	int currentSpace;
-}
+};
 
 // End of structure definition section
 
@@ -57,7 +57,11 @@ int difficultyChoiceAndSpacingAndGuess(bool& quitVariable, string& actualWordCho
 int choosingALetter(char& charInputOfLetter, bool& quitter);
 void mainHangManFunc(int& gameOneIncrement, const string stringArrayWords[][9], const int guessArray[], char alphabet[], const int& m);
 
-// Emily's Function Prototypes
+// Emily's function prototypes
+
+void BoardGame();
+void WelcomeAndRules();
+void DeclarePlayers(player arrayOfPlayers[], numberOfPlayers)
 
 // Hunter's Function Prototypes
 
@@ -530,7 +534,7 @@ void BoardGame()
 	// Create an array of structures to hold each player's information.
 	player arrayOfPlayers[numberOfPlayers];
 	// Call the function that will set up each player's information.
-	DeclarePlayers(arrayOfPlayers);
+	DeclarePlayers(arrayOfPlayers, numberOfPlayers);
 }
 
 // This function will display a welcome message and tell the user the rules of the game.
@@ -549,9 +553,12 @@ void WelcomeAndRules()
 }
 
 // This function will set up each player's inforamtion.
-void DeclarePlayers(player arrayOfPlayers[])
+void DeclarePlayers(player arrayOfPlayers[], numberOfPlayers)
 {
-	// Code here.
+	if (numberOfPlayers > 1)
+	{
+
+	}
 }
 
 // End of Emily's section: The board game
