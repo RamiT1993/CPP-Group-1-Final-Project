@@ -537,8 +537,11 @@ void BoardGame()
 	// If they choose only 1 player, change it to 2 players. The second player will be the CPU.
 	bool isPlayingCPU = false;
 	if (numberOfPlayers == 1)
+	{
 		isPlayingCPU = true;
 		numberOfPlayers++;
+	}
+		
 	// Create an array of structures to hold each player's information.
 	player arrayOfPlayers[numberOfPlayers];
 	// Call the function that will set up each player's information.
