@@ -541,7 +541,6 @@ void BoardGame()
 		isPlayingCPU = true;
 		numberOfPlayers++;
 	}
-		
 	// Create an array of structures to hold each player's information.
 	player arrayOfPlayers[numberOfPlayers];
 	// Call the function that will set up each player's information.
