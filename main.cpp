@@ -631,7 +631,7 @@ bool TakeTurn(int playerNumber, player arrayOfPlayers[])
 	// If the player lands on or passes the hundredth space, tell them they won, and break out of this function.
 	if (arrayOfPlayers[playerNumber].currentSpace >= 100)
 	{
-		cout << arrayOfPlayers[playerNumber].userName << " wins!";
+		cout << arrayOfPlayers[playerNumber].userName << " wins!" << endl;
 		return true;
 	}
 	// Handle trick spaces.
