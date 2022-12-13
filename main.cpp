@@ -28,6 +28,18 @@ using namespace std; // so we dont have to constantly use std:: prefix
 
 // End of preprocessor directives section
 
+// Start of structure defintion section
+
+// Emily: This structure stores each player's information during the board game.
+struct player
+{
+	string userName;
+	char gamePiece;
+	int currentSpace;
+}
+
+// End of structure definition section
+
 // Start of function prototype section
 
 // Every One Participated in the creation of the following functions
@@ -503,7 +515,18 @@ void mainHangManFunc(int& gameOneIncrement, const string stringArrayWords[][9], 
 // This is the main board game function. Call this function to run the board game.
 void BoardGame()
 {
+	// Call the function that will display a welcome message and tell the user the rules of the game.
 	WelcomeAndRules();
+	// Declare a variable to hold the number of players.
+	int numberOfPlayers;
+	// Use a do...while loop to ask for the number of players until valid input is given.
+	do
+	{
+		// Ask for the number of players.
+		cout << "Enter the number of players, 1 to 4. If you choose 1, you will play against a CPU. " << endl;
+		// Read the number of players.
+		cin >> numberOfPlayers;
+	} while (numberOfPlayers < 1 || numberOfPlayers > 4);
 }
 
 // This function will display a welcome message and tell the user the rules of the game.
