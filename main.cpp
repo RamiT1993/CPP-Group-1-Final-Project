@@ -527,10 +527,15 @@ void BoardGame()
 		// Read the number of players.
 		cin >> numberOfPlayers;
 	} while (numberOfPlayers < 1 || numberOfPlayers > 4);
+	// Create an array of structures to hold each player's information.
+	player arrayOfPlayers[numberOfPlayers];
+	// Call the function that will set up each player's information.
+	DeclarePlayers(arrayOfPlayers);
 }
 
 // This function will display a welcome message and tell the user the rules of the game.
 void WelcomeAndRules()
+
 {
 	// Print a blank line between the prior output and the welcome message.
 	cout << endl;
@@ -541,6 +546,12 @@ void WelcomeAndRules()
 		<< "to land on or pass the hundredth space wins. Watch out for those trick "
 		<< "spaces! Trapdoors set you back, whereas secret passages give you a leg "
 		<< "up on the competition. Let's play!" << endl << endl;
+}
+
+// This function will set up each player's inforamtion.
+void DeclarePlayers(player arrayOfPlayers[])
+{
+	// Code here.
 }
 
 // End of Emily's section: The board game
