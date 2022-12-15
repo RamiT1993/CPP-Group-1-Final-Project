@@ -619,9 +619,14 @@ int RollDie()
 // Emily: This function will simulate a user taking their turn. It will return a boolean value of true if someone wins.
 bool TakeTurn(int playerNumber, player arrayOfPlayers[])
 {
-	// Say whose turn it is and tell them that the die will be rolled.
-	cout << arrayOfPlayers[playerNumber].userName << "'s turn! Rolling die..." << endl;
-	// Roll the die.
+	// Say whose turn it is and have them roll the die.
+	char roll = ' ';
+	do
+	{
+		cout << arrayOfPlayers[playerNumber].userName << "'s turn! Type 'R' to roll the die..." << endl;
+		cin >> roll;
+	} while (roll != 'R' && roll != 'r');
+
 	int rollResult = RollDie();
 	// Show what the player rolled.
 	cout << arrayOfPlayers[playerNumber].userName << " rolled a " << rollResult << endl;
