@@ -63,7 +63,7 @@ void BoardGame();
 void WelcomeAndRules();
 void DeclarePlayers(int numberOfPlayers, bool isPlayingCPU, player arrayOfPlayers[]);
 int RollDie();
-bool TakeTurn(int playerNumber, player arrayOfPlayers[]);
+bool TakeTurn(ofstream& outfile, int playerNumber, player arrayOfPlayers[])
 
 // // Hunter's Function Prototypes
 
@@ -553,16 +553,14 @@ void BoardGame()
 	{
 		for (int playerNumber = 0; playerNumber < numberOfPlayers; playerNumber++)
 		{
-			win = TakeTurn(playerNumber, arrayOfPlayers);
+			win = TakeTurn(outfile, playerNumber, arrayOfPlayers);
 		}
 	} while (!win);
-	
-	
+	cout << "The history of board game moves has been printed to the file \"BoardGameRecord.txt\"." << endl;
 }
 
 // Emily: This function will display a welcome message and tell the user the rules of the game.
 void WelcomeAndRules()
-
 {
 	// Print a blank line between the prior output and the welcome message.
 	cout << endl;
@@ -577,7 +575,6 @@ void WelcomeAndRules()
 
 // Emily: This function will set up each player's inforamtion.
 void DeclarePlayers(int numberOfPlayers, bool isPlayingCPU, player arrayOfPlayers[])
-
 {
 	if (numberOfPlayers > 1 && isPlayingCPU == false)
 	{
@@ -619,26 +616,30 @@ int RollDie()
 }
 
 // Emily: This function will simulate a user taking their turn. It will return a boolean value of true if someone wins.
-bool TakeTurn(int playerNumber, player arrayOfPlayers[])
+bool TakeTurn(ofstream& outfile, int playerNumber, player arrayOfPlayers[])
 {
 	// Say whose turn it is and have them roll the die.
 	char roll = ' ';
 	do
 	{
 		cout << arrayOfPlayers[playerNumber].userName << "'s turn! Type 'R' to roll the die..." << endl;
+		outfile << arrayOfPlayers[playerNumber].userName << "'s turn! Type 'R' to roll the die..." << endl;
 		cin >> roll;
 	} while (roll != 'R' && roll != 'r');
 
 	int rollResult = RollDie();
 	// Show what the player rolled.
 	cout << arrayOfPlayers[playerNumber].userName << " rolled a " << rollResult << endl;
+	outfile << arrayOfPlayers[playerNumber].userName << " rolled a " << rollResult << endl;
 	// Move the player's piece that number of spaces.
 	cout << "Advancing " << rollResult << " spaces..." << endl;
+	outfile << "Advancing " << rollResult << " spaces..." << endl;
 	arrayOfPlayers[playerNumber].currentSpace += rollResult;
 	// If the player lands on or passes the hundredth space, tell them they won, and break out of this function.
 	if (arrayOfPlayers[playerNumber].currentSpace >= 100)
 	{
 		cout << arrayOfPlayers[playerNumber].userName << " wins!" << endl;
+		outfile << arrayOfPlayers[playerNumber].userName << " wins!" << endl;
 		return true;
 	}
 	// Handle trick spaces.
@@ -656,6 +657,7 @@ bool TakeTurn(int playerNumber, player arrayOfPlayers[])
 		case 96:
 			arrayOfPlayers[playerNumber].currentSpace -= 3;
 			cout << "You landed on a trapdoor! Go back 3 spaces. You are now on space " << arrayOfPlayers[playerNumber].currentSpace << endl;
+			outfile << "You landed on a trapdoor! Go back 3 spaces. You are now on space " << arrayOfPlayers[playerNumber].currentSpace << endl;
 			break;
 		case 2:
 		case 19:
@@ -669,6 +671,7 @@ bool TakeTurn(int playerNumber, player arrayOfPlayers[])
 		case 91:
 			arrayOfPlayers[playerNumber].currentSpace += 4;
 			cout << "You landed on a secret passage! Go forward 4 more spaces. You are now on space " << arrayOfPlayers[playerNumber].currentSpace << endl;
+			outfile << "You landed on a secret passage! Go forward 4 more spaces. You are now on space " << arrayOfPlayers[playerNumber].currentSpace << endl;
 			break;
 	}
 	// Return false if the player made it through this turn without winning.s
