@@ -24,7 +24,6 @@
 #include <fstream> // for reading and writing files to a file stored on the secondary storage device
 #include <ctime> // to truly be random
 #include <cstdlib> // for random use
-#include <cmath> // maybe? in case we use it later otherwise deletion
 #include <cctype> // useful for changing a character tolower but remember it changes to an int
 
 /*
@@ -37,8 +36,8 @@
 
 // Every One Participated in the creation of these functions
 int randomResult(int, int);
-void readWins(int&, int&);
-void writeWinsandScoreboard(int&, int&);
+void readWins(int&, int&, int&);
+void writeWinsandScoreboard(int&, int&, int&);
 
 
 using namespace std; // so we dont have to constantly use std:: prefix
@@ -72,7 +71,7 @@ bool TakeTurn(ofstream& outfile, int playerNumber, player arrayOfPlayers[]);
 
 
 // Hunter's Function Prototypes-----------------------------------------------------------------
-void Pictionary(int& wins);
+void Pictionary(int&);
 
 /*
 	Function ProtoType Section End
@@ -105,6 +104,7 @@ int main(int argc, char* argv[])
 	// variables to iterate wins
 	int hangmanWins = 0;
 	int pictionaryWins = 0;
+	int banazaPlayed = 0;
 
 
 	
@@ -124,7 +124,7 @@ int main(int argc, char* argv[])
 	cout << "When You Quit From the main choice screen,\nIt shows the scoreboard \nand saves your file so you can use it next time" << endl;
 	cout << setw(57) << setfill('-') << "" << endl;
 
-	readWins(hangmanWins, pictionaryWins);
+	readWins(hangmanWins, pictionaryWins, banazaPlayed);
 
 
 	char charHolder = 'g';
@@ -156,7 +156,7 @@ int main(int argc, char* argv[])
 			mainHangManFunc(hangmanWins, WORDS, GUESS_LIMIT, english_alphabet, ALPHABET_LIMIT); // calling the main hangman Function
 			break;
 		case '0':
-			writeWinsandScoreboard(hangmanWins, pictionaryWins); // writing to file and writing the scoreboard
+			writeWinsandScoreboard(hangmanWins, pictionaryWins, banazaPlayed); // writing to file and writing the scoreboard
 			quitMainProgram = true; // to quit out of the program
 			break;
 		default:
@@ -206,11 +206,11 @@ int randomResult(int randomMaxSize, int randomStart = 0)
 }
 
 
-// purpose of this function is to read the total wins, this was talked about and developed together at the zoom meeting, since we all inputted on this information together
-void readWins(int& firstGame, int& secondGame)
+// purpose of this function is to read up to the total wins, this was talked about and developed together at the zoom meeting, since we all inputted on this information together we decided that board game wins should instead be games played
+void readWins(int& firstGame, int& secondGame, int& thirdGamePlayed)
 {
 	ifstream winningOutput; // creates a variable for writing
-	winningOutput.open("totalWins.txt"); // opens the file for reading
+	winningOutput.open("totalPlayed.txt"); // opens the file for reading
 	if (winningOutput) // (filestreamvariable) checks if file exists (!filestreamvariable) checks if file stream variable file does not exist
 	{
 		string tempHolder; // used just to hold the total wins from each game and gets deleted once it exits the scope
@@ -237,6 +237,7 @@ void readWins(int& firstGame, int& secondGame)
 
 		firstGame = winsArray[0];
 		secondGame = winsArray[1];
+		thirdGamePlayed = winsArray[2];
 		
 		
 
@@ -247,9 +248,10 @@ void readWins(int& firstGame, int& secondGame)
 	}
 	else
 	{
-		cout << "Save file does not exist and/or manipulated in some way. Resetting all Wins to 0";
+		cout << "Save file does not exist and/or manipulated in some way. Resetting all played amount to 0" << endl; 
 		firstGame = 0;
 		secondGame = 0;
+		thirdGamePlayed = 0;
 		
 		
 		// cout << firstGame << secondGame << thirdGame; used to check if wins are set to 0
@@ -266,13 +268,13 @@ void readWins(int& firstGame, int& secondGame)
 // we use .length method to get the amount of characters in the string (this was shown in one of the examples)
 // arrays allow us to be more flexible and a good way to use loop to contain a collection of data.
 // also in this section a score board is created
-void writeWinsandScoreboard(int& firstGame, int& secondGame)
+void writeWinsandScoreboard(int& firstGame, int& secondGame, int& thirdGamePlayed)
 {
 
-	string gameWriteArray[] = { "HangMan Wins:", "Pictionary Wins:", "Total Wins:"};
+	string gameWriteArray[] = { "HangMan Played:", "Pictionary Played:", "Banaza Played:", "Total Played:"};
 	int holdLoopResults[4]{};
 
-	for (int goingThroughArrayLoop = 0; goingThroughArrayLoop != 3; goingThroughArrayLoop++)
+	for (int goingThroughArrayLoop = 0; goingThroughArrayLoop != 4; goingThroughArrayLoop++)
 	{
 		holdLoopResults[goingThroughArrayLoop] = 30 - gameWriteArray[goingThroughArrayLoop].length();
 		if (holdLoopResults[goingThroughArrayLoop] <= 0)
@@ -283,13 +285,13 @@ void writeWinsandScoreboard(int& firstGame, int& secondGame)
 	}
 
 	ofstream writeToWinFile;
-	writeToWinFile.open("totalWins.txt");
+	writeToWinFile.open("totalPlayed.txt");
 
 	if (writeToWinFile) // we use an if (writeToWinFile) to make sure it already exists else do not write to file
 	{
 		cout << endl;
-		cout << setw(10) << setfill('-') << "" << "Score Board" << setw(9) << setfill('-') << "" << endl;
-		int totalWinsInt = firstGame + secondGame;
+		cout << setw(6) << setfill('-') << "" << "Games Played Sheet" << setw(6) << setfill('-') << "" << endl;
+		int totalWinsInt = firstGame + secondGame + thirdGamePlayed;
 
 		cout << gameWriteArray[0] << setw(holdLoopResults[0]) << firstGame << endl;
 		writeToWinFile << gameWriteArray[0] << setw(holdLoopResults[0]) << firstGame << endl;
@@ -297,9 +299,12 @@ void writeWinsandScoreboard(int& firstGame, int& secondGame)
 		cout << gameWriteArray[1] << setw(holdLoopResults[1]) << secondGame << endl;
 		writeToWinFile << gameWriteArray[1] << setw(holdLoopResults[1]) << secondGame << endl;
 
-		cout << gameWriteArray[2] << setw(holdLoopResults[2]) << totalWinsInt << endl;
-		writeToWinFile << gameWriteArray[2] << setw(holdLoopResults[2]) << totalWinsInt << endl;
-		cout << setw(10) << setfill('-') << "" << "Score Board" << setw(9) << setfill('-') << "" << endl;
+		cout << gameWriteArray[2] << setw(holdLoopResults[2]) << secondGame << endl;
+		writeToWinFile << gameWriteArray[2] << setw(holdLoopResults[2]) << secondGame << endl;
+
+		cout << gameWriteArray[3] << setw(holdLoopResults[3]) << totalWinsInt << endl;
+		writeToWinFile << gameWriteArray[3] << setw(holdLoopResults[3]) << totalWinsInt << endl;
+		cout << setw(6) << setfill('-') << "" << "Games Played Sheet" << setw(6) << setfill('-') << "" << endl;
 	}
 
 
@@ -504,6 +509,7 @@ int choosingALetter(char& charInputOfLetter, bool& quitter)
 */
 void mainHangManFunc(int& gameOneIncrement, const string stringArrayWords[][9], const int guessArray[], char alphabet[], const int& alphaLimit)
 {
+	
 	bool wordGuessed = false;
 	bool quitGame = false;
 	int maxGuessInPlay;
@@ -595,9 +601,9 @@ void mainHangManFunc(int& gameOneIncrement, const string stringArrayWords[][9], 
 		{
 			if (manualResult.length() == 5)
 			{
+				gameOneIncrement++;
 				cout << endl;
 				cout << "Congrats! PLUS ONE TO HANGMAN WINS" << endl;
-				gameOneIncrement++;
 				cout << endl;
 				wordGuessed = true;
 				
@@ -605,9 +611,9 @@ void mainHangManFunc(int& gameOneIncrement, const string stringArrayWords[][9], 
 			}
 			else if (manualResult.length() == 7)
 			{
+				gameOneIncrement++;
 				cout << endl;
 				cout << "Congrats! PLUS TWO TO HANGMAN WINS" << endl;
-				gameOneIncrement += 2;
 				cout << endl;
 				wordGuessed = true;
 				
@@ -615,9 +621,9 @@ void mainHangManFunc(int& gameOneIncrement, const string stringArrayWords[][9], 
 			}
 			else
 			{
+				gameOneIncrement++;
 				cout << endl;
 				cout << "Congrats! PLUS THREE TO HANGMAN WINS" << endl;
-				gameOneIncrement += 3;
 				cout << endl;
 				wordGuessed = true;
 				
@@ -626,6 +632,7 @@ void mainHangManFunc(int& gameOneIncrement, const string stringArrayWords[][9], 
 		}
 		else
 		{
+			gameOneIncrement++;
 			cout << endl;
 			cout << "You have lost this game." << endl;
 			cout << "The word was:" << wordAutoResult << endl;
@@ -671,7 +678,7 @@ void BoardGame()
 		numberOfPlayers++;
 	}
 	// Create an array of structures to hold each player's information.
-	player arrayOfPlayers[numberOfPlayers];  //--- theirs going to be an issue here because it needs to be constant
+	player arrayOfPlayers[2];  //--- theirs going to be an issue here because it needs to be constant
 	// Call the function that will set up each player's information.
 	DeclarePlayers(numberOfPlayers, isPlayingCPU, arrayOfPlayers);
 	// Call the function to have each player take their turn.
@@ -816,20 +823,17 @@ bool TakeTurn(ofstream& outfile, int playerNumber, player arrayOfPlayers[])
 
 
 
-
-
-
-
 //--Hunter's Function Definitions-----------------------------------------------------------------
 
 /* This function is the game Pictionary or at least a simplified version of it.It first starts out 
 by outputting the instructions and asking for a input from the user this input is a value 1 - 3 which 
 picks one of the 3 photos loaded in the program.then depending on the choice the player makes it slowly 
 reveal more and more of the photo based on the number of guesses the player has used. while in this part 
-they only have 5 guesses to get the picture correctly. if the user guesses the answer correctly they gain a win and 
-are prompted to see if they'd like to play again. if the user is to lose they also receive the play again prompt.*/
-void Pictionary(int& wins)
+they only have 5 guesses to get the picture correctly. they are prompted to see if they'd like to play again. 
+if the user is to lose they also receive the play again prompt.*/
+void Pictionary(int& amountPlayed)
 {
+	
 	int selection = 0;
 	int counter = 6;
 	string guess;
@@ -840,7 +844,7 @@ void Pictionary(int& wins)
 
 	cout << "!!!!!INSTRUCTIONS!!!!!" << endl << "In this game the objective is to guess what the photo you select is" << endl << " The more wrong guesses you have the easier it will be to guess the photo you have 5 guesses for each photo." << endl;
 	while (playagain == true) {
-		while (selection != 1 || selection != 2 || selection != 3){
+		while (selection != 1 && selection != 2 && selection != 3){
 			cout << "Pick a number 1 to 3 (Input as 1,2, or 3) to pick the photo you would like to guess: ";
 			std::cin >> selection;
 			cout << endl << "You have selected photo number " << selection << " you will have 5 guesses to figure out the photo or you will lose." << endl;
@@ -869,7 +873,7 @@ void Pictionary(int& wins)
 					{
 						cout << " You got it the answer is horse" << endl;
 						guess = "horse";
-						wins = wins + increment;
+						amountPlayed++;
 
 					}
 					break;
@@ -884,7 +888,7 @@ void Pictionary(int& wins)
 					{
 						cout << " You got it the answer is horse" << endl;
 						guess = "horse";
-						wins = wins + increment;
+						amountPlayed++;
 
 					}
 					break;
@@ -900,7 +904,7 @@ void Pictionary(int& wins)
 					{
 						cout << " You got it the answer is horse" << endl;
 						guess = "horse";
-						wins = wins + increment;
+						amountPlayed++;
 
 					}
 					break;
@@ -917,7 +921,7 @@ void Pictionary(int& wins)
 					{
 						cout << " You got it the answer is horse" << endl;
 						guess = "horse";
-						wins = wins + increment;
+						amountPlayed++;
 
 					}
 					break;
@@ -935,7 +939,7 @@ void Pictionary(int& wins)
 					{
 						cout << " You got it the answer is horse" << endl;
 						guess = "horse";
-						wins = wins + increment;
+						amountPlayed++;
 
 					}
 					break;
@@ -971,7 +975,7 @@ void Pictionary(int& wins)
 					{
 						cout << " You got it the answer is turtle" << endl;
 						guess = "turtle";
-						wins = wins + increment;
+						amountPlayed++;
 
 					}
 					break;
@@ -985,7 +989,7 @@ void Pictionary(int& wins)
 					{
 						cout << " You got it the answer is turtle" << endl;
 						guess = "turtle";
-						wins = wins + increment;
+						amountPlayed++;
 
 					}
 					break;
@@ -1001,7 +1005,7 @@ void Pictionary(int& wins)
 					{
 						cout << " You got it the answer is turtle" << endl;
 						guess = "turtle";
-						wins = wins + increment;
+						amountPlayed++;
 
 					}
 					break;
@@ -1018,7 +1022,7 @@ void Pictionary(int& wins)
 					{
 						cout << " You got it the answer is turtle" << endl;
 						guess = "turtle";
-						wins = wins + increment;
+						amountPlayed++;
 
 					}
 					break;
@@ -1036,7 +1040,7 @@ void Pictionary(int& wins)
 					{
 						cout << " You got it the answer is turtle" << endl;
 						guess = "turtle";
-						wins = wins + increment;
+						amountPlayed++;
 
 					}
 					break;
@@ -1073,7 +1077,7 @@ void Pictionary(int& wins)
 					{
 						cout << " You got it the answer is crab" << endl;
 						guess = "crab";
-						wins = wins + increment;
+						amountPlayed++;
 
 					}
 					break;
@@ -1088,7 +1092,7 @@ void Pictionary(int& wins)
 					{
 						cout << " You got it the answer is crab" << endl;
 						guess = "crab";
-						wins = wins + increment;
+						amountPlayed++;
 
 					}
 					break;
@@ -1104,7 +1108,7 @@ void Pictionary(int& wins)
 					{
 						cout << " You got it the answer is crab" << endl;
 						guess = "crab";
-						wins = wins + increment;
+						amountPlayed++;
 
 					}
 					break;
@@ -1120,7 +1124,7 @@ void Pictionary(int& wins)
 					{
 						cout << " You got it the answer is crab" << endl;
 						guess = "crab";
-						wins = wins + increment;
+						amountPlayed++;
 
 					}
 					break;
@@ -1138,7 +1142,7 @@ void Pictionary(int& wins)
 					{
 						cout << " You got it the answer is crab" << endl;
 						guess = "crab";
-						wins = wins + increment;
+						amountPlayed++;
 
 					}
 					break;
