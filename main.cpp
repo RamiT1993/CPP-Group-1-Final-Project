@@ -519,7 +519,7 @@ int randomResult(int randomMaxSize, int randomStart = 0)
 
 // Start of Emily's section: The board game
 
-// This is the main board game function. Call this function to run the board game.
+// Emily: This is the main board game function. Call this function to run the board game.
 void BoardGame()
 {
 	// Call the function that will display a welcome message and tell the user the rules of the game.
@@ -558,7 +558,7 @@ void BoardGame()
 	
 }
 
-// This function will display a welcome message and tell the user the rules of the game.
+// Emily: This function will display a welcome message and tell the user the rules of the game.
 void WelcomeAndRules()
 
 {
@@ -573,7 +573,7 @@ void WelcomeAndRules()
 		<< "up on the competition. Let's play!" << endl << endl;
 }
 
-// This function will set up each player's inforamtion.
+// Emily: This function will set up each player's inforamtion.
 void DeclarePlayers(int numberOfPlayers, bool isPlayingCPU, player arrayOfPlayers[])
 
 {
@@ -608,7 +608,7 @@ void DeclarePlayers(int numberOfPlayers, bool isPlayingCPU, player arrayOfPlayer
 	}
 }
 
-// This function will "roll a die" by generating a random number from 1 to 6.
+// Emily: This function will "roll a die" by generating a random number from 1 to 6.
 int RollDie()
 {
 	// Randomly generate a number from 0 to 5, then add 1 to make it 1 through 6, like the faces of a die.
@@ -616,7 +616,7 @@ int RollDie()
 	return dieRoll;
 }
 
-// This function will simulate a user taking their turn. It will return a boolean value of true if someone wins.
+// Emily: This function will simulate a user taking their turn. It will return a boolean value of true if someone wins.
 bool TakeTurn(int playerNumber, player arrayOfPlayers[])
 {
 	// Say whose turn it is and tell them that the die will be rolled.
