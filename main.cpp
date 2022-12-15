@@ -271,7 +271,7 @@ void readWins(int& firstGame, int& secondGame, int& thirdGamePlayed)
 void writeWinsandScoreboard(int& firstGame, int& secondGame, int& thirdGamePlayed)
 {
 
-	string gameWriteArray[] = { "HangMan Played:", "Pictionary Played:", "Banaza Played:", "Total Played:"};
+	string gameWriteArray[] = { "HangMan Won:", "Pictionary Won:", "Banaza Played:", "Total Wons and Played:"};
 	int holdLoopResults[4]{};
 
 	for (int goingThroughArrayLoop = 0; goingThroughArrayLoop != 4; goingThroughArrayLoop++)
@@ -290,7 +290,7 @@ void writeWinsandScoreboard(int& firstGame, int& secondGame, int& thirdGamePlaye
 	if (writeToWinFile) // we use an if (writeToWinFile) to make sure it already exists else do not write to file
 	{
 		cout << endl;
-		cout << setw(6) << setfill('-') << "" << "Games Played Sheet" << setw(6) << setfill('-') << "" << endl;
+		cout << setw(6) << setfill('-') << "" << "Games Played and Score Sheet" << setw(6) << setfill('-') << "" << endl;
 		int totalWinsInt = firstGame + secondGame + thirdGamePlayed;
 
 		cout << gameWriteArray[0] << setw(holdLoopResults[0]) << firstGame << endl;
@@ -304,7 +304,7 @@ void writeWinsandScoreboard(int& firstGame, int& secondGame, int& thirdGamePlaye
 
 		cout << gameWriteArray[3] << setw(holdLoopResults[3]) << totalWinsInt << endl;
 		writeToWinFile << gameWriteArray[3] << setw(holdLoopResults[3]) << totalWinsInt << endl;
-		cout << setw(6) << setfill('-') << "" << "Games Played Sheet" << setw(6) << setfill('-') << "" << endl;
+		cout << setw(6) << setfill('-') << "" << "Games Played and Score Sheet" << setw(6) << setfill('-') << "" << endl;
 	}
 
 
@@ -611,7 +611,8 @@ void mainHangManFunc(int& gameOneIncrement, const string stringArrayWords[][9], 
 			}
 			else if (manualResult.length() == 7)
 			{
-				gameOneIncrement++;
+				gameOneIncrement+= 2;
+				
 				cout << endl;
 				cout << "Congrats! PLUS TWO TO HANGMAN WINS" << endl;
 				cout << endl;
@@ -621,7 +622,8 @@ void mainHangManFunc(int& gameOneIncrement, const string stringArrayWords[][9], 
 			}
 			else
 			{
-				gameOneIncrement++;
+				gameOneIncrement+= 3;
+				
 				cout << endl;
 				cout << "Congrats! PLUS THREE TO HANGMAN WINS" << endl;
 				cout << endl;
@@ -632,7 +634,6 @@ void mainHangManFunc(int& gameOneIncrement, const string stringArrayWords[][9], 
 		}
 		else
 		{
-			gameOneIncrement++;
 			cout << endl;
 			cout << "You have lost this game." << endl;
 			cout << "The word was:" << wordAutoResult << endl;
@@ -831,7 +832,7 @@ picks one of the 3 photos loaded in the program.then depending on the choice the
 reveal more and more of the photo based on the number of guesses the player has used. while in this part 
 they only have 5 guesses to get the picture correctly. they are prompted to see if they'd like to play again. 
 if the user is to lose they also receive the play again prompt.*/
-void Pictionary(int& amountPlayed)
+void Pictionary(int& wins)
 {
 	
 	int selection = 0;
@@ -871,9 +872,9 @@ void Pictionary(int& amountPlayed)
 					cout << endl;
 					if (guess == "horse" || guess == "Horse")
 					{
-						cout << " You got it the answer is horse" << endl;
+						cout << "You got it the answer is horse" << endl;
 						guess = "horse";
-						amountPlayed++;
+						wins++;
 
 					}
 					break;
@@ -886,9 +887,9 @@ void Pictionary(int& amountPlayed)
 					cout << endl;
 					if (guess == "horse" || guess == "Horse")
 					{
-						cout << " You got it the answer is horse" << endl;
+						cout << "You got it the answer is horse" << endl;
 						guess = "horse";
-						amountPlayed++;
+						wins++;
 
 					}
 					break;
@@ -902,9 +903,9 @@ void Pictionary(int& amountPlayed)
 					cout << endl;
 					if (guess == "horse" || guess == "Horse")
 					{
-						cout << " You got it the answer is horse" << endl;
+						cout << "You got it the answer is horse" << endl;
 						guess = "horse";
-						amountPlayed++;
+						wins++;
 
 					}
 					break;
@@ -919,9 +920,9 @@ void Pictionary(int& amountPlayed)
 					cout << endl;
 					if (guess == "horse" || guess == "Horse")
 					{
-						cout << " You got it the answer is horse" << endl;
+						cout << "You got it the answer is horse" << endl;
 						guess = "horse";
-						amountPlayed++;
+						wins++;
 
 					}
 					break;
@@ -937,9 +938,9 @@ void Pictionary(int& amountPlayed)
 					cout << endl;
 					if (guess == "horse" || guess == "Horse")
 					{
-						cout << " You got it the answer is horse" << endl;
+						cout << "You got it the answer is horse" << endl;
 						guess = "horse";
-						amountPlayed++;
+						wins++;
 
 					}
 					break;
@@ -973,9 +974,9 @@ void Pictionary(int& amountPlayed)
 					cout << endl;
 					if (guess == "turtle" || guess == "Turtle")
 					{
-						cout << " You got it the answer is turtle" << endl;
+						cout << "You got it the answer is turtle" << endl;
 						guess = "turtle";
-						amountPlayed++;
+						wins++;
 
 					}
 					break;
@@ -987,9 +988,9 @@ void Pictionary(int& amountPlayed)
 					cout << endl;
 					if (guess == "turtle" || guess == "Turtle")
 					{
-						cout << " You got it the answer is turtle" << endl;
+						cout << "You got it the answer is turtle" << endl;
 						guess = "turtle";
-						amountPlayed++;
+						wins++;
 
 					}
 					break;
@@ -1003,9 +1004,9 @@ void Pictionary(int& amountPlayed)
 					cout << endl;
 					if (guess == "turtle" || guess == "Turtle")
 					{
-						cout << " You got it the answer is turtle" << endl;
+						cout << "You got it the answer is turtle" << endl;
 						guess = "turtle";
-						amountPlayed++;
+						wins++;
 
 					}
 					break;
@@ -1020,9 +1021,9 @@ void Pictionary(int& amountPlayed)
 					cout << endl;
 					if (guess == "turtle" || guess == "Turtle")
 					{
-						cout << " You got it the answer is turtle" << endl;
+						cout << "You got it the answer is turtle" << endl;
 						guess = "turtle";
-						amountPlayed++;
+						wins++;
 
 					}
 					break;
@@ -1038,9 +1039,9 @@ void Pictionary(int& amountPlayed)
 					cout << endl;
 					if (guess == "turtle" || guess == "Turtle")
 					{
-						cout << " You got it the answer is turtle" << endl;
+						cout << "You got it the answer is turtle" << endl;
 						guess = "turtle";
-						amountPlayed++;
+						wins++;
 
 					}
 					break;
@@ -1075,9 +1076,9 @@ void Pictionary(int& amountPlayed)
 					cout << endl;
 					if (guess == "crab" || guess == "Crab")
 					{
-						cout << " You got it the answer is crab" << endl;
+						cout << "You got it the answer is crab" << endl;
 						guess = "crab";
-						amountPlayed++;
+						wins++;
 
 					}
 					break;
@@ -1090,9 +1091,9 @@ void Pictionary(int& amountPlayed)
 					cout << endl;
 					if (guess == "crab" || guess == "Crab")
 					{
-						cout << " You got it the answer is crab" << endl;
+						cout << "You got it the answer is crab" << endl;
 						guess = "crab";
-						amountPlayed++;
+						wins++;
 
 					}
 					break;
@@ -1106,9 +1107,9 @@ void Pictionary(int& amountPlayed)
 					cout << endl;
 					if (guess == "crab" || guess == "Crab")
 					{
-						cout << " You got it the answer is crab" << endl;
+						cout << "You got it the answer is crab" << endl;
 						guess = "crab";
-						amountPlayed++;
+						wins++;
 
 					}
 					break;
@@ -1122,9 +1123,9 @@ void Pictionary(int& amountPlayed)
 					cout << endl;
 					if (guess == "crab" || guess == "Crab")
 					{
-						cout << " You got it the answer is crab" << endl;
+						cout << "You got it the answer is crab" << endl;
 						guess = "crab";
-						amountPlayed++;
+						wins++;
 
 					}
 					break;
@@ -1140,9 +1141,9 @@ void Pictionary(int& amountPlayed)
 					cout << endl;
 					if (guess == "crab" || guess == "Crab")
 					{
-						cout << " You got it the answer is crab" << endl;
+						cout << "You got it the answer is crab" << endl;
 						guess = "crab";
-						amountPlayed++;
+						wins++;
 
 					}
 					break;
