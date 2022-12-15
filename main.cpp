@@ -658,7 +658,7 @@ void BoardGame()
 {
 	ofstream outfile;
 	outfile.open("BoardGameRecord.txt");
-	// Call the function that will display a welcome message and tell the user the rule's of the game.
+	// Call the function that will display a welcome message and tell the user the rules of the game.
 	WelcomeAndRules();
 	// Declare a variable to hold the number of players.
 	int numberOfPlayers = 0;
