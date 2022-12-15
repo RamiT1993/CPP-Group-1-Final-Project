@@ -656,8 +656,8 @@ bool TakeTurn(ofstream& outfile, int playerNumber, player arrayOfPlayers[])
 		case 82:
 		case 96:
 			arrayOfPlayers[playerNumber].currentSpace -= 3;
-			cout << "You landed on a trapdoor! Go back 3 spaces. Your " << arrayOfPlayers[playerNumber].gamePiece << " is now on space " << arrayOfPlayers[playerNumber].currentSpace << endl;
-			outfile << "You landed on a trapdoor! Go back 3 spaces. Your " << arrayOfPlayers[playerNumber].gamePiece << " is now on space " << arrayOfPlayers[playerNumber].currentSpace << endl;
+			cout << "You landed on a trapdoor! Go back 3 spaces. Your " << arrayOfPlayers[playerNumber].gamePiece << " is now on space " << arrayOfPlayers[playerNumber].currentSpace << "." << endl << endl;
+			outfile << "You landed on a trapdoor! Go back 3 spaces. Your " << arrayOfPlayers[playerNumber].gamePiece << " is now on space " << arrayOfPlayers[playerNumber].currentSpace << "." << endl << endl;
 			break;
 		case 2:
 		case 19:
@@ -670,12 +670,12 @@ bool TakeTurn(ofstream& outfile, int playerNumber, player arrayOfPlayers[])
 		case 87:
 		case 91:
 			arrayOfPlayers[playerNumber].currentSpace += 4;
-			cout << "You landed on a secret passage! Go forward 4 more spaces. Your " << arrayOfPlayers[playerNumber].gamePiece << " is now on space " << arrayOfPlayers[playerNumber].currentSpace << endl;
-			outfile << "You landed on a secret passage! Go forward 4 more spaces. Your " << arrayOfPlayers[playerNumber].gamePiece << " is now on space " << arrayOfPlayers[playerNumber].currentSpace << endl;
+			cout << "You landed on a secret passage! Go forward 4 more spaces. Your " << arrayOfPlayers[playerNumber].gamePiece << " is now on space " << arrayOfPlayers[playerNumber].currentSpace << "." << endl << endl;
+			outfile << "You landed on a secret passage! Go forward 4 more spaces. Your " << arrayOfPlayers[playerNumber].gamePiece << " is now on space " << arrayOfPlayers[playerNumber].currentSpace << "." << endl << endl;
 			break;
 		default:
-			cout << "Your " << arrayOfPlayers[playerNumber].gamePiece << " is now on space " << arrayOfPlayers[playerNumber].currentSpace << endl;
-			outfile << "Your " << arrayOfPlayers[playerNumber].gamePiece << " is now on space " << arrayOfPlayers[playerNumber].currentSpace << endl;
+			cout << "Your " << arrayOfPlayers[playerNumber].gamePiece << " is now on space " << arrayOfPlayers[playerNumber].currentSpace << "." << endl << endl;
+			outfile << "Your " << arrayOfPlayers[playerNumber].gamePiece << " is now on space " << arrayOfPlayers[playerNumber].currentSpace << "." << endl << endl;
 			break;
 	}
 	// Return false if the player made it through this turn without winning.s
