@@ -678,7 +678,7 @@ void BoardGame()
 		numberOfPlayers++;
 	}
 	// Create an array of structures to hold each player's information.
-	player arrayOfPlayers[2];  //--- theirs going to be an issue here because it needs to be constant
+	player arrayOfPlayers[numberOfPlayers];  //----------------------------------------------------------
 	// Call the function that will set up each player's information.
 	DeclarePlayers(numberOfPlayers, isPlayingCPU, arrayOfPlayers);
 	// Call the function to have each player take their turn.
