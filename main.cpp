@@ -522,6 +522,8 @@ int randomResult(int randomMaxSize, int randomStart = 0)
 // Emily: This is the main board game function. Call this function to run the board game.
 void BoardGame()
 {
+	ofstream outfile;
+	outfile.open("BoardGameRecord.txt");
 	// Call the function that will display a welcome message and tell the user the rules of the game.
 	WelcomeAndRules();
 	// Declare a variable to hold the number of players.
