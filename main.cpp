@@ -1,4 +1,4 @@
-﻿/*
+/*
 	Program Name: Carnival
 	Program Group Leader: Rami Toma
 	Program Group Members: Emily Burley and Hunter Donovan
