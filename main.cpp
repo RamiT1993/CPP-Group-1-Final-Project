@@ -94,7 +94,7 @@ int main(int argc, char* argv[])
 		{"maximizing", "jackhammer", "squeezable", "habitation", "iceboaters", "maccaronis", "suggestion", "quadcopter", "sabertooth"} };
 
 
-	char english_alphabet[ALPHABET_LIMIT]{};
+	char english_alphabet[ALPHABET_LIMIT];
 	// const array for hangManGame End
 
 	// for true random can't be placed inside of functions
@@ -215,7 +215,7 @@ void readWins(int& firstGame, int& secondGame, int& thirdGamePlayed)
 	{
 		string tempHolder; // used just to hold the total wins from each game and gets deleted once it exits the scope
 		int wins = 0; // holds the read file wins
-		int winsArray[3]{}; // holds the wins from all three game to then be inputted later in the reference variables in array format
+		int winsArray[3]; // holds the wins from all three game to then be inputted later in the reference variables in array format
 		int arrayControlVariable = 0; // control the array element so it does not go out of scope
 
 		// this whole section makes sure that the file does not reach the end of the array and goes out of scope and se
@@ -272,7 +272,7 @@ void writeWinsandScoreboard(int& firstGame, int& secondGame, int& thirdGamePlaye
 {
 
 	string gameWriteArray[] = { "HangMan Won:", "Pictionary Won:", "Banaza Played:", "Total Wons and Played:"};
-	int holdLoopResults[4]{};
+	int holdLoopResults[4];
 
 	for (int goingThroughArrayLoop = 0; goingThroughArrayLoop != 4; goingThroughArrayLoop++)
 	{
