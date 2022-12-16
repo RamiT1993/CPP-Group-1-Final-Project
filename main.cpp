@@ -1,11 +1,11 @@
-﻿/*
+/*
 	Program Name: Carnival
 	Program Group Leader: Rami Toma
 	Program Group Members: Emily Burley and Hunter Donovan
 	Rami's Portion of Work Final Revision Date: December 3rd, 2022
-	Emily's Portion of Work Final Revision Date: Month Day, 2022
+	Emily's Portion of Work Final Revision Date: December 16th, 2022
 	Hunter's Portion of Work Final Revision Date: December 6th, 2022
-	Final Program Revision Date: Month Day, 2022
+	Final Program Revision Date: December 16th, 2022
 
 	Small Summary Of Program:
 		You choose a game to play or at random if not chosen a game to play it will be selected randomly and you play a small mini-game in which you follow a set of rules to play the game.
@@ -19,12 +19,14 @@
 	PreProcessor Directives Section Start
 */
 #include <iostream> // for input and output default stream use
-#include <string> // for string data type use
-#include <iomanip> // output manipulation
 #include <fstream> // for reading and writing files to a file stored on the secondary storage device
-#include <ctime> // to truly be random
-#include <cstdlib> // for random use
+#include <iomanip> // output manipulation
+#include <string> // for string data type use
 #include <cctype> // useful for changing a character tolower but remember it changes to an int
+#include <cstdlib> // for random use
+#include <ctime> // to truly be random
+
+
 
 /*
 	PreProcessor Directives Section End
@@ -37,18 +39,14 @@
 // Every One Participated in the creation of these functions
 int randomResult(int, int);
 void readWins(int&, int&, int&);
-void writeWinsandScoreboard(int&, int&, int&);
+void writeWins(int&, int&, int&);
 
 
 using namespace std; // so we dont have to constantly use std:: prefix
 // Rami's Function Prototypes.----------------------------------------------------------------- 
-int difficultyChoiceAndSpacingAndGuess(bool&, string& actualWordChosen, const string stringArrayWord[][9], string& amountOfSpacesBasedUponDifficulty, const int guessArrayes[], int&);
-int choosingALetter(char&, bool&);
+void difficultyChoiceAndSpacingAndGuess(bool&, string& actualWordChosen, const string stringArrayWord[][9], string& amountOfSpacesBasedUponDifficulty, const int guessArrayes[], int&);
+void choosingALetter(char&, bool&, int&);
 void mainHangManFunc(int&, const string stringArrayWords[][9], const int guessArray[], char alphabet[], const int&);
-
-
-
-
 
 
 // Emily's Function Prototypes + Structure-----------------------------------------------------------------
@@ -61,10 +59,9 @@ struct player
 	int currentSpace;
 };
 
-void BoardGame();
+void BoardGame(int&);
 void WelcomeAndRules();
-void DeclarePlayers(player arrayOfPlayers[]);
-int RollDie();
+void DeclarePlayers(player arrayOfPlayers[]);;
 bool TakeTurn(ofstream& outfile, int playerNumber, int& boardGameWins, player arrayOfPlayers[]);
 
 
@@ -83,12 +80,12 @@ void Pictionary(int&);
 /*
 	Main Function Start
 */
-int main(int argc, char* argv[])
+int main()
 {
 
 	// const arrays required for HangMan Game
 	const int ALPHABET_LIMIT = 26;
-	const int GUESS_LIMIT[] = { 5, 7, 9 };
+	const int GUESS_LIMIT[] = { 7, 8, 9 };
 	const string WORDS[3][9] = { {"actor", "ahead", "alive", "gazal", "namer", "slump", "folio", "jello", "libel"},
 		{"quizzed", "zizzled", "wazzock", "buzzing", "palazzo", "dazzels", "deliver", "dispute", "foreign"},
 		{"maximizing", "jackhammer", "squeezable", "habitation", "iceboaters", "maccaronis", "suggestion", "quadcopter", "sabertooth"} };
@@ -104,34 +101,35 @@ int main(int argc, char* argv[])
 	// variables to iterate wins
 	int hangmanWins = 0;
 	int pictionaryWins = 0;
-	int banazaPlayed = 0;
+	int banazaWins = 0;
 
 
-	
+
 	//readWins(hangmanWins, pictionaryWins, boardGameWins);
-	
+
 
 
 	// bool to quit game.
 	bool quitMainProgram = false;
-	
+
 
 	cout << setw(57) << setfill('-') << "" << endl;
 	cout << "Welcome to the Carnival Game." << endl;
-	cout << "This game covers up to three mini-games." << endl; 
+	cout << "This game covers up to three mini-games." << endl;
 	cout << "These MiniGames are Hangman, Pictionary, and A Board Game" << endl;
 	cout << "Their is a save system of sorts to keep your \nscores from the previous time you played." << endl;
 	cout << "When You Quit From the main choice screen,\nIt shows the scoreboard \nand saves your file so you can use it next time" << endl;
 	cout << setw(57) << setfill('-') << "" << endl;
 
-	readWins(hangmanWins, pictionaryWins, banazaPlayed);
+	readWins(hangmanWins, pictionaryWins, banazaWins);
+	
 
 
 	char charHolder = 'g';
-	do 
+	do
 	{
-		 // game option are between 0-4
-		
+		// game option are between 0-4
+
 		cout << setw(52) << setfill('-') << "" << endl;
 		cout << "Game Option 1: Hangman" << endl;
 		cout << "Game Option 2: Pictionary" << endl;
@@ -147,7 +145,7 @@ int main(int argc, char* argv[])
 		switch (charHolder)
 		{
 		case '3':
-			BoardGame();
+			BoardGame(banazaWins);
 			break;
 		case '2':
 			Pictionary(pictionaryWins); // calling the pictionary function
@@ -156,7 +154,7 @@ int main(int argc, char* argv[])
 			mainHangManFunc(hangmanWins, WORDS, GUESS_LIMIT, english_alphabet, ALPHABET_LIMIT); // calling the main hangman Function
 			break;
 		case '0':
-			writeWinsandScoreboard(hangmanWins, pictionaryWins, banazaPlayed); // writing to file and writing the scoreboard
+			writeWins(hangmanWins, pictionaryWins, banazaWins); // writing to file and writing the scoreboard
 			quitMainProgram = true; // to quit out of the program
 			break;
 		default:
@@ -170,11 +168,11 @@ int main(int argc, char* argv[])
 
 		cout << setw(52) << setfill('-') << "" << endl;
 
-		
+
 	} while (quitMainProgram != true);
 
 	system("pause"); // so you can see the score board
-	
+
 
 
 
@@ -207,15 +205,15 @@ int randomResult(int randomMaxSize, int randomStart = 0)
 
 
 // purpose of this function is to read up to the total wins, this was talked about and developed together at the zoom meeting, since we all inputted on this information together we decided that board game wins should instead be games played
-void readWins(int& firstGame, int& secondGame, int& thirdGamePlayed)
+void readWins(int& firstGame, int& secondGame, int& thirdGame)
 {
 	ifstream winningOutput; // creates a variable for writing
-	winningOutput.open("totalPlayed.txt"); // opens the file for reading
+	winningOutput.open("totalWins.txt"); // opens the file for reading
 	if (winningOutput) // (filestreamvariable) checks if file exists (!filestreamvariable) checks if file stream variable file does not exist
 	{
 		string tempHolder; // used just to hold the total wins from each game and gets deleted once it exits the scope
 		int wins = 0; // holds the read file wins
-		int winsArray[3]; // holds the wins from all three game to then be inputted later in the reference variables in array format
+		int winsArray[3]{}; // holds the wins from all three game to then be inputted later in the reference variables in array format
 		int arrayControlVariable = 0; // control the array element so it does not go out of scope
 
 		// this whole section makes sure that the file does not reach the end of the array and goes out of scope and se
@@ -237,9 +235,9 @@ void readWins(int& firstGame, int& secondGame, int& thirdGamePlayed)
 
 		firstGame = winsArray[0];
 		secondGame = winsArray[1];
-		thirdGamePlayed = winsArray[2];
-		
-		
+		thirdGame = winsArray[2];
+
+
 
 
 		//cout << firstGame << " " << secondGame;
@@ -248,12 +246,12 @@ void readWins(int& firstGame, int& secondGame, int& thirdGamePlayed)
 	}
 	else
 	{
-		cout << "Save file does not exist and/or manipulated in some way. Resetting all played amount to 0" << endl; 
+		cout << "Save file does not exist and/or manipulated in some way. Resetting all played amount to 0" << endl;
 		firstGame = 0;
 		secondGame = 0;
-		thirdGamePlayed = 0;
-		
-		
+		thirdGame = 0;
+
+
 		// cout << firstGame << secondGame << thirdGame; used to check if wins are set to 0
 
 	}
@@ -268,11 +266,11 @@ void readWins(int& firstGame, int& secondGame, int& thirdGamePlayed)
 // we use .length method to get the amount of characters in the string (this was shown in one of the examples)
 // arrays allow us to be more flexible and a good way to use loop to contain a collection of data.
 // also in this section a score board is created
-void writeWinsandScoreboard(int& firstGame, int& secondGame, int& thirdGamePlayed)
+void writeWins(int& firstGame, int& secondGame, int& thirdGame)
 {
 
-	string gameWriteArray[] = { "HangMan Won:", "Pictionary Won:", "Banaza Played:", "Total Wons and Played:"};
-	int holdLoopResults[4];
+	string gameWriteArray[] = { "HangMan Wins:", "Pictionary Wins:", "Banaza Wins:", "Total Wins:" };
+	int holdLoopResults[4]{};
 
 	for (int goingThroughArrayLoop = 0; goingThroughArrayLoop != 4; goingThroughArrayLoop++)
 	{
@@ -285,13 +283,13 @@ void writeWinsandScoreboard(int& firstGame, int& secondGame, int& thirdGamePlaye
 	}
 
 	ofstream writeToWinFile;
-	writeToWinFile.open("totalPlayed.txt");
+	writeToWinFile.open("totalWins.txt");
 
 	if (writeToWinFile) // we use an if (writeToWinFile) to make sure it already exists else do not write to file
 	{
 		cout << endl;
-		cout << setw(6) << setfill('-') << "" << "Games Played and Score Sheet" << setw(6) << setfill('-') << "" << endl;
-		int totalWinsInt = firstGame + secondGame + thirdGamePlayed;
+		cout << setw(10) << setfill('-') << "" << "Score Sheet" << setw(9) << setfill('-') << "" << endl;
+		int totalWinsInt = firstGame + secondGame + thirdGame;
 
 		cout << gameWriteArray[0] << setw(holdLoopResults[0]) << firstGame << endl;
 		writeToWinFile << gameWriteArray[0] << setw(holdLoopResults[0]) << firstGame << endl;
@@ -299,12 +297,12 @@ void writeWinsandScoreboard(int& firstGame, int& secondGame, int& thirdGamePlaye
 		cout << gameWriteArray[1] << setw(holdLoopResults[1]) << secondGame << endl;
 		writeToWinFile << gameWriteArray[1] << setw(holdLoopResults[1]) << secondGame << endl;
 
-		cout << gameWriteArray[2] << setw(holdLoopResults[2]) << secondGame << endl;
-		writeToWinFile << gameWriteArray[2] << setw(holdLoopResults[2]) << secondGame << endl;
+		cout << gameWriteArray[2] << setw(holdLoopResults[2]) << thirdGame << endl;
+		writeToWinFile << gameWriteArray[2] << setw(holdLoopResults[2]) << thirdGame << endl;
 
 		cout << gameWriteArray[3] << setw(holdLoopResults[3]) << totalWinsInt << endl;
 		writeToWinFile << gameWriteArray[3] << setw(holdLoopResults[3]) << totalWinsInt << endl;
-		cout << setw(6) << setfill('-') << "" << "Games Played and Score Sheet" << setw(6) << setfill('-') << "" << endl;
+		cout << setw(10) << setfill('-') << "" << "Score Sheet" << setw(9) << setfill('-') << "" << endl;
 	}
 
 
@@ -326,7 +324,7 @@ Its first purpose is to ask the user for the difficulty and the difficulty choic
 After this is done, the function(s) second purpose is activated if the user did not quit. if will an if else if and else to determine the amount of spaces that will be use to check if the user guess the correct word and to give the maximum amount of guesses available
 
 It’s third use will be used return the difficulty used to output the results later on if you won or not and word chosen by using random to facilitate the randomization of the word chosen for that difficulty (up to nine) */
-int difficultyChoiceAndSpacingAndGuess(bool& quitVariable, string& actualWordChosen, const string stringArrayWord[][9], string& amountOfSpacesBasedUponDifficulty, const int guessArray[], int& max_guesses)
+void difficultyChoiceAndSpacingAndGuess(bool& quitVariable, string& actualWordChosen, const string stringArrayWord[][9], string& amountOfSpacesBasedUponDifficulty, const int guessArray[], int& max_guesses)
 {
 
 	char difficultyChoiceChar = 0;
@@ -385,7 +383,6 @@ int difficultyChoiceAndSpacingAndGuess(bool& quitVariable, string& actualWordCho
 		}
 
 		actualWordChosen = stringArrayWord[difficultyInInt][randomResult(9)];
-		return difficultyInInt;
 	}
 
 
@@ -394,9 +391,9 @@ int difficultyChoiceAndSpacingAndGuess(bool& quitVariable, string& actualWordCho
 
 }
 
-/* The primary purpose of this function is a quick way to get the index of the alphabet array and return as an int,
+/* The primary purpose of this function is a quick way to get the index of the alphabet array and return to the reference variable resultOfChoice,
 it always has a check system to make sure if the use chose to quit to chose the letter*/
-int choosingALetter(char& charInputOfLetter, bool& quitter)
+void choosingALetter(char& charInputOfLetter, bool& quitter, int& resultOfChoice)
 {
 
 	int choice = 0;
@@ -404,52 +401,68 @@ int choosingALetter(char& charInputOfLetter, bool& quitter)
 	{
 	case 'A':
 	case 'a':
-		return 0;
+		resultOfChoice = 0;
+		break;
 	case 'B':
 	case 'b':
-		return 1;
+		resultOfChoice = 1;
+		break;
 	case 'C':
 	case 'c':
-		return 2;
+		resultOfChoice = 2;
+		break;
 	case 'D':
 	case 'd':
-		return 3;
+		resultOfChoice = 3;
+		break;
 	case 'E':
 	case 'e':
-		return 4;
+		resultOfChoice = 4;
+		break;
 	case 'F':
 	case 'f':
-		return 5;
+		resultOfChoice = 5;
+		break;
 	case 'G':
 	case 'g':
-		return 6;
+		resultOfChoice = 6;
+		break;
 	case 'H':
 	case 'h':
-		return 7;
+		resultOfChoice = 7;
+		break;
 	case 'I':
 	case 'i':
-		return 8;
+		resultOfChoice = 8;
+		break;
 	case 'J':
 	case 'j':
-		return 9;
+		resultOfChoice = 9;
+		break;
 	case 'K':
 	case 'k':
-		return 10;
+		resultOfChoice = 10;
+		break;
 	case 'L':
 	case 'l':
-		return 11;
+		resultOfChoice = 11;
+		break;
 	case 'M':
 	case 'm':
-		return 12;
+		resultOfChoice = 12;
+		break;
 	case 'N':
 	case 'n':
-		return 13;
+		resultOfChoice = 13;
+		break;
 	case 'O':
 	case 'o':
-		return 14;
+		resultOfChoice = 14;
+		break;
 	case 'P':
 	case 'p':
-		return 15;
+		resultOfChoice = 15;
+		break;
 	case 'Q':
 	case 'q':
 		cout << "Did you mean to quit(1) or do you mean the letter q(2):";
@@ -459,43 +472,55 @@ int choosingALetter(char& charInputOfLetter, bool& quitter)
 			quitter = true;
 			break;
 		}
-		return 16;
+		resultOfChoice = 16;
+		break;
 	case 'R':
 	case 'r':
-		return 17;
+		resultOfChoice = 17;
+		break;
 	case 'S':
 	case 's':
-		return 18;
+		resultOfChoice = 18;
+		break;
 	case 'T':
 	case 't':
-		return 19;
+		resultOfChoice = 19;
+		break;
 	case 'U':
 	case 'u':
-		return 20;
+		resultOfChoice = 20;
+		break;
 	case 'V':
 	case 'v':
-		return 21;
+		resultOfChoice = 21;
+		break;
 	case 'W':
 	case 'w':
-		return 22;
+		resultOfChoice = 22;
+		break;
 	case 'X':
 	case 'x':
-		return 23;
+		resultOfChoice = 23;
+		break;
 	case 'Y':
 	case 'y':
-		return 24;
+		resultOfChoice = 24;
+		break;
 	case 'Z':
 	case 'z':
-		return 25;
+		resultOfChoice = 25;
+		break;
 	default:
 		cout << "Choosing a letter by random" << endl;
 		int letterChosen = randomResult(25);
 		cin.clear();
-		return letterChosen;
+		resultOfChoice = letterChosen;
+		break;
 	}
+
 }
 
-/*This main function is in which every other function will be passed into and only this will will be called into mai. 
+/*This main function is in which every other function will be passed into and only this will will be called into mai.
  create some variables that will later be manipulates. welcome the user to the game.
  then populate the alphabet array using the for loop. It is used this way instead of creating a const array to save time and manually inputting it.
  use a do while to make sure it runs at least once.
@@ -509,7 +534,7 @@ int choosingALetter(char& charInputOfLetter, bool& quitter)
 */
 void mainHangManFunc(int& gameOneIncrement, const string stringArrayWords[][9], const int guessArray[], char alphabet[], const int& alphaLimit)
 {
-	
+
 	bool wordGuessed = false;
 	bool quitGame = false;
 	int maxGuessInPlay;
@@ -545,7 +570,7 @@ void mainHangManFunc(int& gameOneIncrement, const string stringArrayWords[][9], 
 		int wordLength = wordAutoResult.length();
 
 
-		for (int guesses = 0; guesses < maxGuessInPlay - 1 && manualResult != wordAutoResult && wordGuessed != true; guesses++)
+		for (int guesses = 0; guesses < maxGuessInPlay && manualResult != wordAutoResult && wordGuessed != true; guesses++)
 		{
 			char letterChoice = 0;
 			if (manualResult != wordAutoResult && wordGuessed != true)
@@ -553,14 +578,16 @@ void mainHangManFunc(int& gameOneIncrement, const string stringArrayWords[][9], 
 				cout << "Please Choose a letter from the Alphabet:";
 				cin >> letterChoice;
 			}
-			int trueChoice = choosingALetter(letterChoice, quitGame);
+			int trueChoice = 0;
+
+			choosingALetter(letterChoice, quitGame, trueChoice);
 
 			if (quitGame == true)
 			{
 				break;
 			}
 
-			
+
 
 
 			for (int letterLocation = 0; letterLocation <= wordLength; letterLocation++)
@@ -606,29 +633,29 @@ void mainHangManFunc(int& gameOneIncrement, const string stringArrayWords[][9], 
 				cout << "Congrats! PLUS ONE TO HANGMAN WINS" << endl;
 				cout << endl;
 				wordGuessed = true;
-				
+
 				cin.ignore(); // to ignore that extra cin at the end that appears weirdly
 			}
 			else if (manualResult.length() == 7)
 			{
-				gameOneIncrement+= 2;
-				
+				gameOneIncrement += 2;
+
 				cout << endl;
 				cout << "Congrats! PLUS TWO TO HANGMAN WINS" << endl;
 				cout << endl;
 				wordGuessed = true;
-				
+
 				cin.ignore(); // to ignore that extra cin at the end that appears weirdly
 			}
 			else
 			{
-				gameOneIncrement+= 3;
-				
+				gameOneIncrement += 3;
+
 				cout << endl;
 				cout << "Congrats! PLUS THREE TO HANGMAN WINS" << endl;
 				cout << endl;
 				wordGuessed = true;
-				
+
 				cin.ignore(); // to ignore that extra cin at the end that appears weirdly
 			}
 		}
@@ -669,14 +696,18 @@ void BoardGame(int& boardGameWins)
 	DeclarePlayers(arrayOfPlayers);
 	cout << endl;
 	// Call the function to have each player take their turn.
-	bool win;
+	bool win = false;
 	do
 	{
 		for (int playerNumber = 0; playerNumber < NUMBER_OF_PLAYERS; playerNumber++)
 		{
+			if (win == true) 
+			{ 
+				break; 
+			}
 			win = TakeTurn(outfile, playerNumber, boardGameWins, arrayOfPlayers);
 		}
-	} while (!win);
+	} while (win != true);
 	cout << "The history of board game moves has been printed to the file \"BoardGameRecord.txt\"." << endl;
 }
 
@@ -697,7 +728,7 @@ void WelcomeAndRules()
 // Emily: This function will set up each player's inforamtion.
 void DeclarePlayers(player arrayOfPlayers[])
 {
-	
+
 	// Ask the solo player for their name.
 	cout << "Player 1's name: ";
 	cin >> arrayOfPlayers[0].userName;
@@ -712,27 +743,20 @@ void DeclarePlayers(player arrayOfPlayers[])
 	arrayOfPlayers[1].currentSpace = 0;
 }
 
-// Emily: This function will "roll a die" by generating a random number from 1 to 6.
-int RollDie()
-{
-	// Randomly generate a number from 0 to 5, then add 1 to make it 1 through 6, like the faces of a die.
-	int dieRoll = randomResult(5) + 1;
-	return dieRoll;
-}
-
 // Emily: This function will simulate a user taking their turn. It will return a boolean value of true if someone wins.
 bool TakeTurn(ofstream& outfile, int playerNumber, int& boardGameWins, player arrayOfPlayers[])
 {
 	// Say whose turn it is and have them roll the die.
 	char roll = ' ';
+	bool someoneWon = false;
 	do
 	{
 		cout << arrayOfPlayers[playerNumber].userName << "'s turn! Type 'R' to roll the die..." << endl;
 		outfile << arrayOfPlayers[playerNumber].userName << "'s turn! Type 'R' to roll the die..." << endl;
 		cin >> roll;
-	} while (roll != 'R' && roll != 'r');
+	} while (roll != 'R' && roll != 'r' && someoneWon != true);
 
-	int rollResult = RollDie();
+	int rollResult = randomResult(6,1);
 	// Show what the player rolled.
 	cout << arrayOfPlayers[playerNumber].userName << " rolled a " << rollResult << endl;
 	outfile << arrayOfPlayers[playerNumber].userName << " rolled a " << rollResult << endl;
@@ -743,46 +767,50 @@ bool TakeTurn(ofstream& outfile, int playerNumber, int& boardGameWins, player ar
 	// If the player lands on or passes the hundredth space, tell them they won, and break out of this function.
 	if (arrayOfPlayers[playerNumber].currentSpace >= 100)
 	{
+		someoneWon = true;
 		cout << arrayOfPlayers[playerNumber].userName << " wins!" << endl;
 		outfile << arrayOfPlayers[playerNumber].userName << " wins!" << endl;
-		boardGameWins++;
+		if (arrayOfPlayers[0].currentSpace == arrayOfPlayers[playerNumber].currentSpace)
+		{
+			boardGameWins++;
+		}
 		return true;
 	}
 	// Handle trick spaces.
 	switch (arrayOfPlayers[playerNumber].currentSpace)
 	{
-		case 7:
-		case 14:
-		case 27:
-		case 31:
-		case 45:
-		case 53:
-		case 68:
-		case 79:
-		case 82:
-		case 96:
-			arrayOfPlayers[playerNumber].currentSpace -= 3;
-			cout << "You landed on a trapdoor! Go back 3 spaces. Your " << arrayOfPlayers[playerNumber].gamePiece << " is now on space " << arrayOfPlayers[playerNumber].currentSpace << "." << endl << endl;
-			outfile << "You landed on a trapdoor! Go back 3 spaces. Your " << arrayOfPlayers[playerNumber].gamePiece << " is now on space " << arrayOfPlayers[playerNumber].currentSpace << "." << endl << endl;
-			break;
-		case 2:
-		case 19:
-		case 25:
-		case 33:
-		case 42:
-		case 56:
-		case 64:
-		case 78:
-		case 87:
-		case 91:
-			arrayOfPlayers[playerNumber].currentSpace += 4;
-			cout << "You landed on a secret passage! Go forward 4 more spaces. Your " << arrayOfPlayers[playerNumber].gamePiece << " is now on space " << arrayOfPlayers[playerNumber].currentSpace << "." << endl << endl;
-			outfile << "You landed on a secret passage! Go forward 4 more spaces. Your " << arrayOfPlayers[playerNumber].gamePiece << " is now on space " << arrayOfPlayers[playerNumber].currentSpace << "." << endl << endl;
-			break;
-		default:
-			cout << "Your " << arrayOfPlayers[playerNumber].gamePiece << " is now on space " << arrayOfPlayers[playerNumber].currentSpace << "." << endl << endl;
-			outfile << "Your " << arrayOfPlayers[playerNumber].gamePiece << " is now on space " << arrayOfPlayers[playerNumber].currentSpace << "." << endl << endl;
-			break;
+	case 7:
+	case 14:
+	case 27:
+	case 31:
+	case 45:
+	case 53:
+	case 68:
+	case 79:
+	case 82:
+	case 96:
+		arrayOfPlayers[playerNumber].currentSpace -= 3;
+		cout << "You landed on a trapdoor! Go back 3 spaces. Your " << arrayOfPlayers[playerNumber].gamePiece << " is now on space " << arrayOfPlayers[playerNumber].currentSpace << "." << endl << endl;
+		outfile << "You landed on a trapdoor! Go back 3 spaces. Your " << arrayOfPlayers[playerNumber].gamePiece << " is now on space " << arrayOfPlayers[playerNumber].currentSpace << "." << endl << endl;
+		break;
+	case 2:
+	case 19:
+	case 25:
+	case 33:
+	case 42:
+	case 56:
+	case 64:
+	case 78:
+	case 87:
+	case 91:
+		arrayOfPlayers[playerNumber].currentSpace += 4;
+		cout << "You landed on a secret passage! Go forward 4 more spaces. Your " << arrayOfPlayers[playerNumber].gamePiece << " is now on space " << arrayOfPlayers[playerNumber].currentSpace << "." << endl << endl;
+		outfile << "You landed on a secret passage! Go forward 4 more spaces. Your " << arrayOfPlayers[playerNumber].gamePiece << " is now on space " << arrayOfPlayers[playerNumber].currentSpace << "." << endl << endl;
+		break;
+	default:
+		cout << "Your " << arrayOfPlayers[playerNumber].gamePiece << " is now on space " << arrayOfPlayers[playerNumber].currentSpace << "." << endl << endl;
+		outfile << "Your " << arrayOfPlayers[playerNumber].gamePiece << " is now on space " << arrayOfPlayers[playerNumber].currentSpace << "." << endl << endl;
+		break;
 	}
 	// Return false if the player made it through this turn without winning.s
 	return false;
@@ -798,15 +826,15 @@ bool TakeTurn(ofstream& outfile, int playerNumber, int& boardGameWins, player ar
 
 //--Hunter's Function Definitions-----------------------------------------------------------------
 
-/* This function is the game Pictionary or at least a simplified version of it.It first starts out 
-by outputting the instructions and asking for a input from the user this input is a value 1 - 3 which 
-picks one of the 3 photos loaded in the program.then depending on the choice the player makes it slowly 
-reveal more and more of the photo based on the number of guesses the player has used. while in this part 
-they only have 5 guesses to get the picture correctly. they are prompted to see if they'd like to play again. 
+/* This function is the game Pictionary or at least a simplified version of it.It first starts out
+by outputting the instructions and asking for a input from the user this input is a value 1 - 3 which
+picks one of the 3 photos loaded in the program.then depending on the choice the player makes it slowly
+reveal more and more of the photo based on the number of guesses the player has used. while in this part
+they only have 5 guesses to get the picture correctly. they are prompted to see if they'd like to play again.
 if the user is to lose they also receive the play again prompt.*/
 void Pictionary(int& wins)
 {
-	
+
 	int selection = 0;
 	int counter = 6;
 	string guess;
@@ -815,9 +843,9 @@ void Pictionary(int& wins)
 	char response = ' ';
 	bool playagain = true;
 
-	cout << "!!!!!INSTRUCTIONS!!!!!" << endl << "In this game the objective is to guess what the photo you select is" << endl << " The more wrong guesses you have the easier it will be to guess the photo you have 5 guesses for each photo." << endl;
+	cout << "!!!!!INSTRUCTIONS!!!!!" << endl << "In this game the objective is to guess what the photo you select is" << endl << "The more wrong guesses you have the easier it will be to guess the photo you have 5 guesses for each photo." << endl;
 	while (playagain == true) {
-		while (selection != 1 && selection != 2 && selection != 3){
+		while (selection != 1 && selection != 2 && selection != 3) {
 			cout << "Pick a number 1 to 3 (Input as 1,2, or 3) to pick the photo you would like to guess: ";
 			std::cin >> selection;
 			cout << endl << "You have selected photo number " << selection << " you will have 5 guesses to figure out the photo or you will lose." << endl;
