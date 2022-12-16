@@ -213,7 +213,7 @@ void readWins(int& firstGame, int& secondGame, int& thirdGame)
 	{
 		string tempHolder; // used just to hold the total wins from each game and gets deleted once it exits the scope
 		int wins = 0; // holds the read file wins
-		int winsArray[3]{}; // holds the wins from all three game to then be inputted later in the reference variables in array format
+		int winsArray[3]; // holds the wins from all three game to then be inputted later in the reference variables in array format
 		int arrayControlVariable = 0; // control the array element so it does not go out of scope
 
 		// this whole section makes sure that the file does not reach the end of the array and goes out of scope and se
@@ -270,7 +270,7 @@ void writeWins(int& firstGame, int& secondGame, int& thirdGame)
 {
 
 	string gameWriteArray[] = { "HangMan Wins:", "Pictionary Wins:", "Banaza Wins:", "Total Wins:" };
-	int holdLoopResults[4]{};
+	int holdLoopResults[4];
 
 	for (int goingThroughArrayLoop = 0; goingThroughArrayLoop != 4; goingThroughArrayLoop++)
 	{
