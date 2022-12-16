@@ -63,9 +63,9 @@ struct player
 
 void BoardGame();
 void WelcomeAndRules();
-void DeclarePlayers(int numberOfPlayers, bool isPlayingCPU, player arrayOfPlayers[]);
+void DeclarePlayers(player arrayOfPlayers[])
 int RollDie();
-bool TakeTurn(ofstream& outfile, int playerNumber, player arrayOfPlayers[]);
+bool TakeTurn(ofstream& outfile, int playerNumber, player arrayOfPlayers[])
 
 
 
@@ -655,94 +655,64 @@ void mainHangManFunc(int& gameOneIncrement, const string stringArrayWords[][9], 
 //--Emily's Function Definitions-----------------------------------------------------------------
 
 /* This is the main board game function. Call this function to run the board game */
-void BoardGame()
+void BoardGame(int& boardGameWins)
 {
 	ofstream outfile;
 	outfile.open("BoardGameRecord.txt");
 	// Call the function that will display a welcome message and tell the user the rules of the game.
 	WelcomeAndRules();
 	// Declare a variable to hold the number of players.
-	int numberOfPlayers = 0;
-	// Use a do...while loop to ask for the number of players until valid input is given.
-	do
-	{
-		// Ask for the number of players.
-		cout << "Enter the number of players, 1 to 4. If you choose 1, you will play against a CPU. " << endl;
-		// Read the number of players.
-		cin >> numberOfPlayers;
-	} while (numberOfPlayers < 1 || numberOfPlayers > 4);
-	// If they choose only 1 player, change it to 2 players. The second player will be the CPU.
-	bool isPlayingCPU = false;
-	if (numberOfPlayers == 1)
-	{
-		isPlayingCPU = true;
-		numberOfPlayers++;
-	}
+	const int NUMBER_OF_PLAYERS = 2;
 	// Create an array of structures to hold each player's information.
-	player arrayOfPlayers[numberOfPlayers];  //----------------------------------------------------------
+	player arrayOfPlayers[NUMBER_OF_PLAYERS];
 	// Call the function that will set up each player's information.
-	DeclarePlayers(numberOfPlayers, isPlayingCPU, arrayOfPlayers);
+	DeclarePlayers(arrayOfPlayers);
+	cout << endl;
 	// Call the function to have each player take their turn.
 	bool win;
 	do
 	{
-		for (int playerNumber = 0; playerNumber < numberOfPlayers; playerNumber++)
+		for (int playerNumber = 0; playerNumber < NUMBER_OF_PLAYERS; playerNumber++)
 		{
-			win = TakeTurn(outfile, playerNumber, arrayOfPlayers);
+			win = TakeTurn(outfile, playerNumber, boardGameWins, arrayOfPlayers);
 		}
 	} while (!win);
 	cout << "The history of board game moves has been printed to the file \"BoardGameRecord.txt\"." << endl;
 }
 
-/* This function will display a welcome message and tell the user the rules of the game */
+// Emily: This function will display a welcome message and tell the user the rules of the game.
 void WelcomeAndRules()
 {
 	// Print a blank line between the prior output and the welcome message.
 	cout << endl;
 
 	// Print the welcome message and rules.
-	cout << "Welcome to Board Game Bonanza! This is a board game for 1 to 4 players. "
+	cout << "Welcome to Board Game Bonanza! This is a board game played against a CPU. "
 		<< "Players roll a die and advance that number of spaces. The first player "
 		<< "to land on or pass the hundredth space wins. Watch out for those trick "
 		<< "spaces! Trapdoors set you back, whereas secret passages give you a leg "
 		<< "up on the competition. Let's play!" << endl << endl;
 }
 
-/* This function will set up each players's information */
-void DeclarePlayers(int numberOfPlayers, bool isPlayingCPU, player arrayOfPlayers[])
+// Emily: This function will set up each player's inforamtion.
+void DeclarePlayers(player arrayOfPlayers[])
 {
-	if (numberOfPlayers > 1 && isPlayingCPU == false)
-	{
-		for (int playerNumber = 0; playerNumber < numberOfPlayers; playerNumber++)
-		{
-			// Ask each player for their name.
-			cout << "Player " << playerNumber + 1 << "'s name: ";
-			cin >> arrayOfPlayers[playerNumber].userName;
-			// Ask each player to choose a game piece, like how you can be the thimble in Monopoly.
-			cout << "Choose a game piece (type a keyboard character): ";
-			cin >> arrayOfPlayers[playerNumber].gamePiece;
-			// Start each player at the beginning of the board.
-			arrayOfPlayers[playerNumber].currentSpace = 0;
-		}
-	}
-	else
-	{
-		// Ask the solo player for their name.
-		cout << "Player 1's name: ";
-		cin >> arrayOfPlayers[0].userName;
-		// Ask the solo player to choose a game piece, like how you can be the thimble in Monopoly.
-		cout << "Choose a game piece (type a keyboard character): ";
-		cin >> arrayOfPlayers[0].gamePiece;
-		// Start the solo player at the beginning of the board.
-		arrayOfPlayers[0].currentSpace = 0;
-		// Create the CPU player.
-		arrayOfPlayers[1].userName = "Mr. CPU";
-		arrayOfPlayers[1].gamePiece = '?';
-		arrayOfPlayers[1].currentSpace = 0;
-	}
+	
+	// Ask the solo player for their name.
+	cout << "Player 1's name: ";
+	cin >> arrayOfPlayers[0].userName;
+	// Ask the solo player to choose a game piece, like how you can be the thimble in Monopoly.
+	cout << "Choose a game piece (type a keyboard character): ";
+	cin >> arrayOfPlayers[0].gamePiece;
+	// Start the solo player at the beginning of the board.
+	arrayOfPlayers[0].currentSpace = 0;
+	// Create the CPU player.
+	arrayOfPlayers[1].userName = "Mr. CPU";
+	arrayOfPlayers[1].gamePiece = '?';
+	arrayOfPlayers[1].currentSpace = 0;
 }
 
-/* This function will "roll a die" by generating a random number from 1 to 6*/
+// Emily: This function will "roll a die" by generating a random number from 1 to 6.
 int RollDie()
 {
 	// Randomly generate a number from 0 to 5, then add 1 to make it 1 through 6, like the faces of a die.
@@ -750,8 +720,8 @@ int RollDie()
 	return dieRoll;
 }
 
-/* This function will simulate a user taking their turn. It will return a boolean value of true if someone wins*/
-bool TakeTurn(ofstream& outfile, int playerNumber, player arrayOfPlayers[])
+// Emily: This function will simulate a user taking their turn. It will return a boolean value of true if someone wins.
+bool TakeTurn(ofstream& outfile, int playerNumber, int& boardGameWins, player arrayOfPlayers[])
 {
 	// Say whose turn it is and have them roll the die.
 	char roll = ' ';
@@ -775,48 +745,50 @@ bool TakeTurn(ofstream& outfile, int playerNumber, player arrayOfPlayers[])
 	{
 		cout << arrayOfPlayers[playerNumber].userName << " wins!" << endl;
 		outfile << arrayOfPlayers[playerNumber].userName << " wins!" << endl;
+		boardGameWins++;
 		return true;
 	}
 	// Handle trick spaces.
 	switch (arrayOfPlayers[playerNumber].currentSpace)
 	{
-	case 7:
-	case 14:
-	case 27:
-	case 31:
-	case 45:
-	case 53:
-	case 68:
-	case 79:
-	case 82:
-	case 96:
-		arrayOfPlayers[playerNumber].currentSpace -= 3;
-		cout << "You landed on a trapdoor! Go back 3 spaces. Your " << arrayOfPlayers[playerNumber].gamePiece << " is now on space " << arrayOfPlayers[playerNumber].currentSpace << "." << endl << endl;
-		outfile << "You landed on a trapdoor! Go back 3 spaces. Your " << arrayOfPlayers[playerNumber].gamePiece << " is now on space " << arrayOfPlayers[playerNumber].currentSpace << "." << endl << endl;
-		break;
-	case 2:
-	case 19:
-	case 25:
-	case 33:
-	case 42:
-	case 56:
-	case 64:
-	case 78:
-	case 87:
-	case 91:
-		arrayOfPlayers[playerNumber].currentSpace += 4;
-		cout << "You landed on a secret passage! Go forward 4 more spaces. Your " << arrayOfPlayers[playerNumber].gamePiece << " is now on space " << arrayOfPlayers[playerNumber].currentSpace << "." << endl << endl;
-		outfile << "You landed on a secret passage! Go forward 4 more spaces. Your " << arrayOfPlayers[playerNumber].gamePiece << " is now on space " << arrayOfPlayers[playerNumber].currentSpace << "." << endl << endl;
-		break;
-	default:
-		cout << "Your " << arrayOfPlayers[playerNumber].gamePiece << " is now on space " << arrayOfPlayers[playerNumber].currentSpace << "." << endl << endl;
-		outfile << "Your " << arrayOfPlayers[playerNumber].gamePiece << " is now on space " << arrayOfPlayers[playerNumber].currentSpace << "." << endl << endl;
-		break;
+		case 7:
+		case 14:
+		case 27:
+		case 31:
+		case 45:
+		case 53:
+		case 68:
+		case 79:
+		case 82:
+		case 96:
+			arrayOfPlayers[playerNumber].currentSpace -= 3;
+			cout << "You landed on a trapdoor! Go back 3 spaces. Your " << arrayOfPlayers[playerNumber].gamePiece << " is now on space " << arrayOfPlayers[playerNumber].currentSpace << "." << endl << endl;
+			outfile << "You landed on a trapdoor! Go back 3 spaces. Your " << arrayOfPlayers[playerNumber].gamePiece << " is now on space " << arrayOfPlayers[playerNumber].currentSpace << "." << endl << endl;
+			break;
+		case 2:
+		case 19:
+		case 25:
+		case 33:
+		case 42:
+		case 56:
+		case 64:
+		case 78:
+		case 87:
+		case 91:
+			arrayOfPlayers[playerNumber].currentSpace += 4;
+			cout << "You landed on a secret passage! Go forward 4 more spaces. Your " << arrayOfPlayers[playerNumber].gamePiece << " is now on space " << arrayOfPlayers[playerNumber].currentSpace << "." << endl << endl;
+			outfile << "You landed on a secret passage! Go forward 4 more spaces. Your " << arrayOfPlayers[playerNumber].gamePiece << " is now on space " << arrayOfPlayers[playerNumber].currentSpace << "." << endl << endl;
+			break;
+		default:
+			cout << "Your " << arrayOfPlayers[playerNumber].gamePiece << " is now on space " << arrayOfPlayers[playerNumber].currentSpace << "." << endl << endl;
+			outfile << "Your " << arrayOfPlayers[playerNumber].gamePiece << " is now on space " << arrayOfPlayers[playerNumber].currentSpace << "." << endl << endl;
+			break;
 	}
 	// Return false if the player made it through this turn without winning.s
 	return false;
 }
 
+// End of Emily's section: The board game
 
 
 
