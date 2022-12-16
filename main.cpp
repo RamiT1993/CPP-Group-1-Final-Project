@@ -59,11 +59,11 @@ void mainHangManFunc(int& gameOneIncrement, const string stringArrayWords[][9], 
 
 // Emily's function prototypes
 
-void BoardGame();
+void BoardGame(int& boardGameWins);
 void WelcomeAndRules();
 void DeclarePlayers(int numberOfPlayers, bool isPlayingCPU, player arrayOfPlayers[]);
 int RollDie();
-bool TakeTurn(ofstream& outfile, int playerNumber, player arrayOfPlayers[]);
+bool TakeTurn(ofstream& outfile, int playerNumber, int& boardGameWins, player arrayOfPlayers[]);
 
 // Hunter's Function Prototypes
 
@@ -80,7 +80,7 @@ int main()
 		{"quizzed", "zizzled", "wazzock", "buzzing", "palazzo", "dazzeled", "deliver", "dispute", "foreign"},
 		{"maximizing", "jackhammer", "squeezable", "habitation", "iceboaters", "maccaronis", "obidences", "quadcopter", "sabertooth"} };
 
-	char english_alphabet[ALPHABET_LIMIT]{};
+	char english_alphabet[ALPHABET_LIMIT];
 	// Rami: End of const arrays for hangManGame
 
 	// For true random can't be placed inside of functions
@@ -98,7 +98,7 @@ int main()
 	mainHangManFunc(hangmanWins, WORDS, GUESS_LIMIT, english_alphabet, ALPHABET_LIMIT);
 	writeWins(hangmanWins, pictionaryWins, boardGameWins);
 
-	BoardGame();
+	BoardGame(boardGameWins);
 }
 
 // End of main function section
@@ -130,7 +130,7 @@ void readWins(int& firstGame, int& secondGame, int& thirdGame)
 	{
 		string tempHolder; // Holds the total wins from each game and is deleted once it exits the scope
 		int wins = 0; // Holds the read file wins
-		int winsArray[3]{}; // Holds the wins from all three game to then be input later in the reference variables in array format
+		int winsArray[3]; // Holds the wins from all three game to then be input later in the reference variables in array format
 		int arrayControlVariable = 0; // Control the array element so it does not go out of scope
 
 		// This section ensures that the file does not reach the end of the array and go out of scope
@@ -178,7 +178,7 @@ void writeWins(int& firstGame, int& secondGame, int& thirdGame)
 {
 
 	string gameWriteArray[] = { "HangMan Wins:", "Pictionary Wins:", "BoardGame Wins:", "Total Wins:" };
-	int holdLoopResults[4]{};
+	int holdLoopResults[4];
 
 	for (int goingThroughArrayLoop = 0; goingThroughArrayLoop != 4; goingThroughArrayLoop++)
 	{
@@ -520,7 +520,7 @@ void mainHangManFunc(int& gameOneIncrement, const string stringArrayWords[][9], 
 // Start of Emily's section: The board game
 
 // Emily: This is the main board game function. Call this function to run the board game.
-void BoardGame()
+void BoardGame(int& boardGameWins)
 {
 	ofstream outfile;
 	outfile.open("BoardGameRecord.txt");
@@ -547,13 +547,14 @@ void BoardGame()
 	player arrayOfPlayers[numberOfPlayers];
 	// Call the function that will set up each player's information.
 	DeclarePlayers(numberOfPlayers, isPlayingCPU, arrayOfPlayers);
+	cout << endl;
 	// Call the function to have each player take their turn.
 	bool win;
 	do
 	{
 		for (int playerNumber = 0; playerNumber < numberOfPlayers; playerNumber++)
 		{
-			win = TakeTurn(outfile, playerNumber, arrayOfPlayers);
+			win = TakeTurn(outfile, playerNumber, arrayOfPlayers, boardGameWins);
 		}
 	} while (!win);
 	cout << "The history of board game moves has been printed to the file \"BoardGameRecord.txt\"." << endl;
@@ -616,7 +617,7 @@ int RollDie()
 }
 
 // Emily: This function will simulate a user taking their turn. It will return a boolean value of true if someone wins.
-bool TakeTurn(ofstream& outfile, int playerNumber, player arrayOfPlayers[])
+bool TakeTurn(ofstream& outfile, int playerNumber, int& boardGameWins, player arrayOfPlayers[])
 {
 	// Say whose turn it is and have them roll the die.
 	char roll = ' ';
@@ -640,6 +641,7 @@ bool TakeTurn(ofstream& outfile, int playerNumber, player arrayOfPlayers[])
 	{
 		cout << arrayOfPlayers[playerNumber].userName << " wins!" << endl;
 		outfile << arrayOfPlayers[playerNumber].userName << " wins!" << endl;
+		boardGameWins++;
 		return true;
 	}
 	// Handle trick spaces.
