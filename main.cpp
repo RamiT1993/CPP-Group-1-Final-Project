@@ -63,9 +63,9 @@ struct player
 
 void BoardGame();
 void WelcomeAndRules();
-void DeclarePlayers(player arrayOfPlayers[])
+void DeclarePlayers(player arrayOfPlayers[]);
 int RollDie();
-bool TakeTurn(ofstream& outfile, int playerNumber, player arrayOfPlayers[])
+bool TakeTurn(ofstream& outfile, int playerNumber, int& boardGameWins, player arrayOfPlayers[]);
 
 
 
