@@ -61,7 +61,7 @@ void mainHangManFunc(int& gameOneIncrement, const string stringArrayWords[][9], 
 
 void BoardGame(int& boardGameWins);
 void WelcomeAndRules();
-void DeclarePlayers(int numberOfPlayers, bool isPlayingCPU, player arrayOfPlayers[]);
+void DeclarePlayers(player arrayOfPlayers[]);
 int RollDie();
 bool TakeTurn(ofstream& outfile, int playerNumber, int& boardGameWins, player arrayOfPlayers[]);
 
@@ -527,34 +527,19 @@ void BoardGame(int& boardGameWins)
 	// Call the function that will display a welcome message and tell the user the rules of the game.
 	WelcomeAndRules();
 	// Declare a variable to hold the number of players.
-	int numberOfPlayers = 0;
-	// Use a do...while loop to ask for the number of players until valid input is given.
-	do
-	{
-		// Ask for the number of players.
-		cout << "Enter the number of players, 1 to 4. If you choose 1, you will play against a CPU. " << endl;
-		// Read the number of players.
-		cin >> numberOfPlayers;
-	} while (numberOfPlayers < 1 || numberOfPlayers > 4);
-	// If they choose only 1 player, change it to 2 players. The second player will be the CPU.
-	bool isPlayingCPU = false;
-	if (numberOfPlayers == 1)
-	{
-		isPlayingCPU = true;
-		numberOfPlayers++;
-	}
+	const int NUMBER_OF_PLAYERS = 2;
 	// Create an array of structures to hold each player's information.
-	player arrayOfPlayers[numberOfPlayers];
+	player arrayOfPlayers[NUMBER_OF_PLAYERS];
 	// Call the function that will set up each player's information.
-	DeclarePlayers(numberOfPlayers, isPlayingCPU, arrayOfPlayers);
+	DeclarePlayers(arrayOfPlayers);
 	cout << endl;
 	// Call the function to have each player take their turn.
 	bool win;
 	do
 	{
-		for (int playerNumber = 0; playerNumber < numberOfPlayers; playerNumber++)
+		for (int playerNumber = 0; playerNumber < NUMBER_OF_PLAYERS; playerNumber++)
 		{
-			win = TakeTurn(outfile, playerNumber, arrayOfPlayers, boardGameWins);
+			win = TakeTurn(outfile, playerNumber, boardGameWins, arrayOfPlayers);
 		}
 	} while (!win);
 	cout << "The history of board game moves has been printed to the file \"BoardGameRecord.txt\"." << endl;
@@ -567,7 +552,7 @@ void WelcomeAndRules()
 	cout << endl;
 
 	// Print the welcome message and rules.
-	cout << "Welcome to Board Game Bonanza! This is a board game for 1 to 4 players. "
+	cout << "Welcome to Board Game Bonanza! This is a board game played against a CPU. "
 		<< "Players roll a die and advance that number of spaces. The first player "
 		<< "to land on or pass the hundredth space wins. Watch out for those trick "
 		<< "spaces! Trapdoors set you back, whereas secret passages give you a leg "
@@ -575,37 +560,21 @@ void WelcomeAndRules()
 }
 
 // Emily: This function will set up each player's inforamtion.
-void DeclarePlayers(int numberOfPlayers, bool isPlayingCPU, player arrayOfPlayers[])
+void DeclarePlayers(player arrayOfPlayers[])
 {
-	if (numberOfPlayers > 1 && isPlayingCPU == false)
-	{
-		for (int playerNumber = 0; playerNumber < numberOfPlayers; playerNumber++)
-		{
-			// Ask each player for their name.
-			cout << "Player " << playerNumber + 1 << "'s name: ";
-			cin >> arrayOfPlayers[playerNumber].userName;
-			// Ask each player to choose a game piece, like how you can be the thimble in Monopoly.
-			cout << "Choose a game piece (type a keyboard character): ";
-			cin >> arrayOfPlayers[playerNumber].gamePiece;
-			// Start each player at the beginning of the board.
-			arrayOfPlayers[playerNumber].currentSpace = 0;
-		}
-	}
-	else
-	{
-			// Ask the solo player for their name.
-			cout << "Player 1's name: ";
-			cin >> arrayOfPlayers[0].userName;
-			// Ask the solo player to choose a game piece, like how you can be the thimble in Monopoly.
-			cout << "Choose a game piece (type a keyboard character): ";
-			cin >> arrayOfPlayers[0].gamePiece;
-			// Start the solo player at the beginning of the board.
-			arrayOfPlayers[0].currentSpace = 0;
-			// Create the CPU player.
-			arrayOfPlayers[1].userName = "Mr. CPU";
-			arrayOfPlayers[1].gamePiece = '?';
-			arrayOfPlayers[1].currentSpace = 0;
-	}
+	
+	// Ask the solo player for their name.
+	cout << "Player 1's name: ";
+	cin >> arrayOfPlayers[0].userName;
+	// Ask the solo player to choose a game piece, like how you can be the thimble in Monopoly.
+	cout << "Choose a game piece (type a keyboard character): ";
+	cin >> arrayOfPlayers[0].gamePiece;
+	// Start the solo player at the beginning of the board.
+	arrayOfPlayers[0].currentSpace = 0;
+	// Create the CPU player.
+	arrayOfPlayers[1].userName = "Mr. CPU";
+	arrayOfPlayers[1].gamePiece = '?';
+	arrayOfPlayers[1].currentSpace = 0;
 }
 
 // Emily: This function will "roll a die" by generating a random number from 1 to 6.
