@@ -122,7 +122,7 @@ int main()
 	cout << setw(57) << setfill('-') << "" << endl;
 
 	readWins(hangmanWins, pictionaryWins, banazaWins);
-	
+
 
 
 	char charHolder = 'g';
@@ -701,9 +701,9 @@ void BoardGame(int& boardGameWins)
 	{
 		for (int playerNumber = 0; playerNumber < NUMBER_OF_PLAYERS; playerNumber++)
 		{
-			if (win == true) 
-			{ 
-				break; 
+			if (win == true)
+			{
+				break;
 			}
 			win = TakeTurn(outfile, playerNumber, boardGameWins, arrayOfPlayers);
 		}
@@ -756,7 +756,7 @@ bool TakeTurn(ofstream& outfile, int playerNumber, int& boardGameWins, player ar
 		cin >> roll;
 	} while (roll != 'R' && roll != 'r' && someoneWon != true);
 
-	int rollResult = randomResult(6,1);
+	int rollResult = randomResult(6, 1);
 	// Show what the player rolled.
 	cout << arrayOfPlayers[playerNumber].userName << " rolled a " << rollResult << endl;
 	outfile << arrayOfPlayers[playerNumber].userName << " rolled a " << rollResult << endl;
