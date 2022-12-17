@@ -14,6 +14,9 @@
 
 */
 
+/* Theirs are a couple of critical issues with visual studio vs visual studio code (clang and gcc). A major critical issue is in vs code (clang and gcc) is that you are allowed to use a non-const int variable
+as the index when you are initializing it which is very illegal in C++ because you can only do that way via dynamic array/vectors and secondly array[index]{} - {} brackets especially causes errors in visual studio code (clang and gcc) because it does understand them I think. This is why you don't see
+{} next to array[x]*/
 
 /*
 	PreProcessor Directives Section Start
@@ -37,7 +40,7 @@
 */
 
 // Every One Participated in the creation of these functions
-int randomResult(int, int);
+int randomResult(int , int randomStart = 0);
 void readWins(int&, int&, int&);
 void writeWins(int&, int&, int&);
 
@@ -103,15 +106,8 @@ int main()
 	int pictionaryWins = 0;
 	int banazaWins = 0;
 
-
-
-	//readWins(hangmanWins, pictionaryWins, boardGameWins);
-
-
-
 	// bool to quit game.
 	bool quitMainProgram = false;
-
 
 	cout << setw(57) << setfill('-') << "" << endl;
 	cout << "Welcome to the Carnival Game." << endl;
@@ -122,8 +118,6 @@ int main()
 	cout << setw(57) << setfill('-') << "" << endl;
 
 	readWins(hangmanWins, pictionaryWins, banazaWins);
-
-
 
 	char charHolder = 'g';
 	do
@@ -140,6 +134,7 @@ int main()
 		cin >> charHolder;
 
 		cout << endl;
+
 
 
 		switch (charHolder)
@@ -162,10 +157,6 @@ int main()
 
 		}
 
-
-
-
-
 		cout << setw(52) << setfill('-') << "" << endl;
 
 
@@ -173,15 +164,10 @@ int main()
 
 	system("pause"); // so you can see the score board
 
-
-
-
-
 }
 /*
 	Main Function End
 */
-
 
 /*
 	Function Definition(s) Start
@@ -189,9 +175,11 @@ int main()
 
 //-- Every One Participated in the creation of these functions--
 
-
-//This Function primary purpose is to as a random generator where the developer chooses up to what random number and what number the random number starts at		
-int randomResult(int randomMaxSize, int randomStart = 0)
+//This Function primary purpose is to act as a random generator that can act as a multi-purpose function which is used as desired.
+//second parameter is a default parameter set to 0 when nothing is passed to it. It is used primary if you don't want random to start at 1
+//first parameter is used to the limit of which number you would like to randomize to.
+//
+int randomResult(int randomMaxSize, int randomStart)
 {
 	if (randomStart > 0)
 	{
@@ -203,8 +191,7 @@ int randomResult(int randomMaxSize, int randomStart = 0)
 	}
 }
 
-
-// purpose of this function is to read up to the total wins, this was talked about and developed together at the zoom meeting, since we all inputted on this information together we decided that board game wins should instead be games played
+// purpose of this function is to read up to the total wins, and then 
 void readWins(int& firstGame, int& secondGame, int& thirdGame)
 {
 	ifstream winningOutput; // creates a variable for writing
@@ -238,7 +225,7 @@ void readWins(int& firstGame, int& secondGame, int& thirdGame)
 		thirdGame = winsArray[2];
 
 
-
+		cout << "Save File Read!" << endl;
 
 		//cout << firstGame << " " << secondGame;
 
@@ -258,7 +245,6 @@ void readWins(int& firstGame, int& secondGame, int& thirdGame)
 
 	winningOutput.close(); // to close the file after opening it of course.
 }
-
 
 // this was talked about and further elaborated on in the zoom meeting
 // purpose of this file is to write the wins of each game and the total number Wins to a text file and output it in a way thats legible to the end user. by using arrays we are are able to quickly access them 
@@ -303,17 +289,12 @@ void writeWins(int& firstGame, int& secondGame, int& thirdGame)
 		cout << gameWriteArray[3] << setw(holdLoopResults[3]) << totalWinsInt << endl;
 		writeToWinFile << gameWriteArray[3] << setw(holdLoopResults[3]) << totalWinsInt << endl;
 		cout << setw(10) << setfill('-') << "" << "Score Sheet" << setw(9) << setfill('-') << "" << endl;
+		cout << "Saving File" << endl;
+		
 	}
-
-
 
 	writeToWinFile.close();
 }
-
-
-
-
-
 
 //--Rami's Function Definitions-----------------------------------------------------------------
 
@@ -677,8 +658,6 @@ void mainHangManFunc(int& gameOneIncrement, const string stringArrayWords[][9], 
 
 }
 
-
-
 //--Emily's Function Definitions-----------------------------------------------------------------
 
 /* This is the main board game function. Call this function to run the board game */
@@ -817,12 +796,6 @@ bool TakeTurn(ofstream& outfile, int playerNumber, int& boardGameWins, player ar
 }
 
 // End of Emily's section: The board game
-
-
-
-
-
-
 
 //--Hunter's Function Definitions-----------------------------------------------------------------
 
@@ -1182,7 +1155,6 @@ void Pictionary(int& wins)
 	}
 
 }
-
 
 /*
 	Function Definition End
